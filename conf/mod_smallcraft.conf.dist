@@ -8,10 +8,10 @@
 # My module configuration
 ########################################
 #
-#    MyModule.Enable
+#    Smallcraft.Enable
 #        Description: Enable my module and print "Hello World" message at server start
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
 
-MyModule.Enable = 1
+Smallcraft.Enable = 1
