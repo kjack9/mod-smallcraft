@@ -29,7 +29,7 @@ class Smallcraft_DatabaseScript : public DatabaseScript
 public:
     Smallcraft_DatabaseScript() : DatabaseScript("Smallcraft_DatabaseScript") { }
 
-    void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplateStore) override
+    void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
     {
         //
         // ZG
@@ -37,7 +37,7 @@ public:
 
         // Zealot Zath (11348) - Tiger Boss Add
         // make Zath kite-able
-        creatureTemplateStore[11348]->MechanicImmuneMask = 536936977; // can't be CC'd, but can be slowed/distracted/rooted/etc
+        creatureTemplates[11348]->MechanicImmuneMask = 536936977; // can't be CC'd, but can be slowed/distracted/rooted/etc
 
     }
 };
