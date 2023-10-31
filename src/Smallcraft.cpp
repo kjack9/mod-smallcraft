@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "Config.h"
 #include "Chat.h"
-#include "scripts/EasternKingdoms/ZulGurub/sc_boss_jeklik.cpp"
+#include "SpellInfo.h"
 
 // Add player scripts
 class Smallcraft_PlayerScript : public PlayerScript
@@ -23,29 +23,25 @@ public:
     }
 };
 
-// Add database scripts
-class Smallcraft_DatabaseScript : public DatabaseScript
+bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono::duration<int64_t, std::milli> newTime = Milliseconds::max(), bool cancelOriginal = true)
 {
-public:
-    Smallcraft_DatabaseScript() : DatabaseScript("Smallcraft_DatabaseScript") { }
-
-    void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
+    if (oldMap.GetTimeUntilEvent(eventId) != Milliseconds::max())
     {
-        //
-        // ZG
-        //
+        if (newTime == Milliseconds::max())
+        {
+            newTime = oldMap.GetTimeUntilEvent(eventId);
+        }
 
-        // Zealot Zath (11348) - Tiger Boss Add
-        // make Zath kite-able
-        creatureTemplates[11348]->MechanicImmuneMask = 536936977; // can't be CC'd, but can be slowed/distracted/rooted/etc
-
+        newMap.ScheduleEvent(eventId, newTime);
+        if (cancelOriginal) { oldMap.CancelEvent(eventId); }
+        return true;
     }
-};
+
+    return false;
+}
 
 // Add all scripts
 void AddSmallcraftScripts()
 {
     new Smallcraft_PlayerScript();
-    new Smallcraft_DatabaseScript();
-    AddSC_boss_jeklikScripts();
 }
