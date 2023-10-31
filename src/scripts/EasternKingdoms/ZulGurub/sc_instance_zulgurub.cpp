@@ -23,9 +23,23 @@ public:
     }
 };
 
+class sc_instance_zulgurub_DatabaseScript : public DatabaseScript
+{
+public:
+    sc_instance_zulgurub_DatabaseScript() : DatabaseScript("sc_instance_zulgurub_DatabaseScript") { }
+
+    void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
+    {
+        // Zealot Zath (11348) - Tiger Boss Add
+        // make kite-able
+        creatureTemplates[11348]->MechanicImmuneMask = 536936977; // can't be CC'd, but can be slowed/distracted/rooted/etc
+    }
+
+};
 
 void load_sc_instance_zulgurub()
 {
     new sc_instance_zulgurub_GlobalScript();
+    new sc_instance_zulgurub_DatabaseScript();
     load_sc_boss_jeklik();
 }
