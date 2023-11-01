@@ -39,7 +39,5 @@ public:
 
 void load_sc_instance_zulgurub()
 {
-    new sc_instance_zulgurub_GlobalScript();
-    new sc_instance_zulgurub_DatabaseScript();
     load_sc_boss_jeklik();
 }
