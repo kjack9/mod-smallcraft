@@ -1,11 +1,10 @@
-/*
- * Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
- */
-
-#include "ScriptMgr.h"
-#include "Player.h"
+#include <vector>
 #include "Config.h"
 #include "Chat.h"
+#include "Group.h"
+#include "Player.h"
+#include "ScriptMgr.h"
+#include "SharedDefines.h"
 #include "SpellInfo.h"
 
 // Add player scripts
