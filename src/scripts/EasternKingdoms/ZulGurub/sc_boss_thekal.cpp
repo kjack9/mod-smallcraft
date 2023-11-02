@@ -1,4 +1,5 @@
 #include "GameObjectAI.h"
+#include "Log.h"
 #include "MoveSplineInit.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
@@ -30,5 +31,7 @@ public:
 
 void load_sc_boss_thekal()
 {
+    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/High Priest Thekal is enabled.");
+
     new sc_boss_thekal_DatabaseScript();
 }

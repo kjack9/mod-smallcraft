@@ -116,6 +116,8 @@ public:
 
 void load_sc_boss_jeklik()
 {
+    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/Jeklik is enabled.");
+
     RegisterCreatureAI(boss_jeklik);
     RegisterCreatureAI(npc_batrider);
     new sc_boss_jeklik_GlobalScript();

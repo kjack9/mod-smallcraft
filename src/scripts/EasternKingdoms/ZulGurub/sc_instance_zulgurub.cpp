@@ -1,3 +1,5 @@
+#include "Config.h"
+#include "Log.h"
 #include "ScriptMgr.h"
 #include "SpellInfo.h"
 #include "sc_boss_jeklik.cpp"
@@ -5,6 +7,10 @@
 
 void load_sc_instance_zulgurub()
 {
-    load_sc_boss_jeklik();
-    load_sc_boss_thekal();
+    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub is enabled.");
+
+    if (sConfigMgr->GetOption<bool>("Smallcraft.RaidChanges.Vanilla.ZulGurub.Jeklik", true))
+        load_sc_boss_jeklik();
+    if (sConfigMgr->GetOption<bool>("Smallcraft.RaidChanges.Vanilla.ZulGurub.Thekal", true))
+        load_sc_boss_thekal();
 }

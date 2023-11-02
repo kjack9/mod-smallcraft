@@ -1,21 +1,22 @@
-/*
- * Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
- */
-
 #include "Config.h"
+#include "Log.h"
 
-// From SC
 void AddSmallcraftScripts();
 void load_sc_instance_zulgurub();
+void load_sc_tempspells();
 
-// Add all
-// additionally replace all '-' in the module folder name with '_' here
 void Addmod_smallcraftScripts()
 {
     if (sConfigMgr->GetOption<bool>("Smallcraft.Enable", false))
     {
         AddSmallcraftScripts();
-        load_sc_instance_zulgurub();
+        LOG_INFO("module.Smallcraft", "SmallCraft is enabled.");
+
+        if (sConfigMgr->GetOption<bool>("Smallcraft.RaidChanges.Vanilla.ZulGurub", true))
+            load_sc_instance_zulgurub();
+
+        if (sConfigMgr->GetOption<bool>("Smallcraft.TempSpells.Enable", true))
+            load_sc_tempspells();
     }
 }
 

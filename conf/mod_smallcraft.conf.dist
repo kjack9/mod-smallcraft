@@ -1,17 +1,117 @@
-#
-# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
-#
-
 [worldserver]
 
-########################################
-# My module configuration
-########################################
-#
-#    Smallcraft.Enable
-#        Description: Enable my module and print "Hello World" message at server start
-#        Default:     0 - Disabled
-#                     1 - Enabled
-#
+##################
+# General Settings
+##################
 
+#   Smallcraft.Enable
+#       Description:
+#           Enable the entire module. Changing this requires a server restart.
+#
+#       Default: 1 (On)
 Smallcraft.Enable = 1
+
+
+##############
+# Raid Changes
+##############
+# Smallcraft makes a number of changes to raids to make them more accessible to smaller
+# groups. These changes are intended to make raids possible for groups of 3-5 players.
+
+#  Smallcraft.RaidChanges.Enable
+#       Description:
+#           Enable this entire feature.
+#
+#       Default: 1 (On)
+Smallcraft.RaidChanges.Enable = 1
+
+#   Smallcraft.RaidChanges.Vanilla.ZulGurub
+#       Description:
+#           Enable this feature for Zul'Gurub. Will apply zone-wide changes. Must be
+#           enabled for individual boss changes take effect.
+#
+#       Default: 1 (On)
+#
+#   Smallcraft.RaidChanges.Vanilla.ZulGurub.<BossName>
+#       Description:
+#           Enable this feature for the specified boss.
+#
+#       Default: 1 (On)
+Smallcraft.RaidChanges.Vanilla.ZulGurub = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Venoxis = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Jeklik = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Marli = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Thekal = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Arlokk = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Hakkar = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Mandokir = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.EdgeOfMadness = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Gahzranka = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Jindo = 1
+
+
+##################
+# Temporary Spells
+##################
+# TempSpells ensures that at least one member of your party can remove each debuff type.
+# Often, raids assume that you are able to remove each type of debuff. This feature will
+# intelligently add and remove spells from your party member's spellbooks to ensure that
+# these encounters are possible for your group.
+#
+# Players that receive these temp spells must be mana users for now.
+
+#   Smallcraft.TempSpells.Enable
+#       Description:
+#           Enable this entire feature.
+#
+#       Default: 1 (On)
+Smallcraft.TempSpells.Enable = 1
+
+#   Smallcraft.TempSpells.Enable.Dungeons
+#   Smallcraft.TempSpells.Enable.Raids
+#   Smallcraft.TempSpells.Enable.Battlegrounds
+#
+#       Description:
+#           Enable this feature for dungeons/raids/battlegrounds.
+#
+#       Default:
+#           Dungeons: 0 (Off)
+#           Raids: 1 (On)
+#           Battlegrounds: 0 (Off)
+Smallcraft.TempSpells.Enable.Dungeons = 0
+Smallcraft.TempSpells.Enable.Raids = 1
+Smallcraft.TempSpells.Enable.Battlegrounds = 0
+
+#   Smallcraft.TempSpells.RolePreference
+#       Description:
+#           The order in which to consider roles for temporary spells. Comma-separated.
+#
+#           Valid values:
+#               - tank
+#               - healer
+#               - melee             # melee DPS only
+#               - ranged            # ranged DPS only
+#       Default: "ranged,melee,healer,tank"
+Smallcraft.TempSpells.RolePreference = "ranged,melee,healer,tank"
+
+#   Smallcraft.TempSpells.TieCount
+#       Description:
+#           When multiple players are eligible for a temporary spell, this setting
+#           determines how many tied players will receive the spell.
+#
+#       Default: 1
+Smallcraft.TempSpells.TieCount = 1
+
+#   Smallcraft.TempSpells.Dispel<Type>.SpellID
+#       Description:
+#           If none of your party members can remove the specified debuff type, grant this
+#           SpellID to an appropriate party member.
+#       Defaults:
+#           DispelCurse: 475 (Remove Curse)
+#           DispelDisease: 528 (Cure Disease)
+#           DispelMagic: 527 (Dispel Magic)
+#           DispelPoison: 8946 (Cure Poison)
+Smallcraft.TempSpells.DispelCurse.SpellID = 475
+Smallcraft.TempSpells.DispelDisease.SpellID = 528
+Smallcraft.TempSpells.DispelMagic.SpellID = 527
+Smallcraft.TempSpells.DispelPoison.SpellID = 8946
