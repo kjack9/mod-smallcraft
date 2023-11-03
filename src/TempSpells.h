@@ -33,7 +33,7 @@ public:
     Smallcraft_TempSpells_PlayerScript() : PlayerScript("Smallcraft_TempSpells_PlayerScript") {}
     void OnLogin(Player* player) override;
     void OnLogout(Player* player) override;
-    void OnUpdate(Player* player, uint32 p_time) override;
+    void OnAfterSpecSlotChanged(Player* player, uint8 newSlot) override;
 };
 
 class Smallcraft_TempSpells_AllMapScript : public AllMapScript

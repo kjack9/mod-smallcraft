@@ -6,16 +6,6 @@
 #include "SharedDefines.h"
 #include "ObjectGuid.h"
 
-// create a class to hold player data
-class SmallcraftPlayerInfo : public DataMap::Base
-{
-public:
-    SmallcraftPlayerInfo() {}
-
-    // the player's latest spec
-    uint8 talentSpec = 0;
-};
-
 // create a class to hold group member data
 // some of this is redudant with the `Player` class, but we need it if the player disconnects
 class SmallcraftGroupMemberInfo : public DataMap::Base

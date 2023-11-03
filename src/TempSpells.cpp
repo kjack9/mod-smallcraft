@@ -84,6 +84,10 @@ void Smallcraft_TempSpells_GroupScript::OnRemoveMember(Group* group, ObjectGuid 
  */
 void Smallcraft_TempSpells_PlayerScript::OnLogin(Player* player)
 {
+    // if the player is gone, return
+    if (!player)
+        return;
+
     // get the player's group
     Group* group = player->GetGroup();
 
@@ -103,10 +107,6 @@ void Smallcraft_TempSpells_PlayerScript::OnLogin(Player* player)
             Smallcraft_TempSpells::UpdateGroup(group);
         }
     }
-
-    // save the player's current spec for later reference
-    SmallcraftPlayerInfo* playerInfo = player->CustomData.GetDefault<SmallcraftPlayerInfo>("SmallcraftPlayerInfo");
-    playerInfo->talentSpec = (uint8)(player->GetSpec(player->GetActiveSpec()));
 }
 
 /**
@@ -116,6 +116,10 @@ void Smallcraft_TempSpells_PlayerScript::OnLogin(Player* player)
  */
 void Smallcraft_TempSpells_PlayerScript::OnLogout(Player* player)
 {
+    // if the player is gone, return
+    if (!player)
+        return;
+
     // get the player's group
     Group* group = player->GetGroup();
 
@@ -136,34 +140,33 @@ void Smallcraft_TempSpells_PlayerScript::OnLogout(Player* player)
     }
 }
 
-void Smallcraft_TempSpells_PlayerScript::OnUpdate(Player* player, uint32 /*p_time*/)
+/**
+ * @brief Called after a player changes their spec using the dual spec feature.
+ *
+ * @param player The player that changed their spec.
+ * @param newSlot The new spec slot.
+ */
+void Smallcraft_TempSpells_PlayerScript::OnAfterSpecSlotChanged(Player* player, uint8 newSlot)
 {
-    // if the player does not exist, do nothing
+    // if the player is gone, return
     if (!player)
         return;
 
-    // if the player is not in a group, do nothing
-    if (!player->GetGroup())
-        return;
+    // get the player's group
+    Group* group = player->GetGroup();
 
-    // if the player's current spec doesn't match the saved spec (they've switched specs using dual spec), update their group
-    SmallcraftPlayerInfo* playerInfo = player->CustomData.GetDefault<SmallcraftPlayerInfo>("SmallcraftPlayerInfo");
-    if (playerInfo->talentSpec != (uint8)(player->GetSpec(player->GetActiveSpec())))
+    // if the player is in a group, update the group's member list
+    if (group)
     {
         LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnUpdate():: {} has switched specs.",
-            player->GetName()
+        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnAfterSpecSlotChanged():: {} changed their spec slot to slot {}.",
+            player->GetName(),
+            newSlot
         );
 
-        // if the group composition or talent specs change, analyze (force) and update the group
-        if (Smallcraft_TempSpells::UpdateGroupMembers(player->GetGroup()))
-        {
-            Smallcraft_TempSpells::AnalyzeGroup(player->GetGroup(), true);
-            Smallcraft_TempSpells::UpdateGroup(player->GetGroup());
-        }
-
-        // save the player's current spec for later checks
-        playerInfo->talentSpec = (uint8)(player->GetSpec(player->GetActiveSpec()));
+        Smallcraft_TempSpells::UpdateGroupMembers(group);
+        Smallcraft_TempSpells::AnalyzeGroup(group, true);
+        Smallcraft_TempSpells::UpdateGroup(group);
     }
 }
 
@@ -312,7 +315,6 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
                 );
 
                 memberInfo->talentSpec = newTalentSpec;
-
                 groupListUpdated = true;
             }
 
@@ -326,6 +328,13 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
             }
         }
     });
+
+    if (!groupListUpdated)
+    {
+        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {}'s group is unchanged.",
+            group->GetLeaderName()
+        );
+    }
 
     return groupListUpdated;
 }
