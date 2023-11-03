@@ -32,8 +32,8 @@ class Smallcraft_TempSpells_PlayerScript : public PlayerScript
 public:
     Smallcraft_TempSpells_PlayerScript() : PlayerScript("Smallcraft_TempSpells_PlayerScript") {}
     void OnLogin(Player* player) override;
-    void OnLogout(Player* player) override;
     void OnAfterSpecSlotChanged(Player* player, uint8 newSlot) override;
+    void OnPlayerResurrect(Player* player, float restore_percent, bool applySickness) override;
 };
 
 class Smallcraft_TempSpells_AllMapScript : public AllMapScript
@@ -56,7 +56,7 @@ public:
     static void UpdatePlayers(Group* group);
     static void UpdatePlayer(Player* player);
 private:
-    static std::vector<SmallcraftGroupMemberInfo*> _getMembersForTempSpell(Group* group);
+    static std::vector<SmallcraftGroupMemberInfo*> _getMembersForTempSpell(Group* group, DispelType dispelType);
 };
 
 #endif // SMALLCRAFT_TEMPSPELLS_H

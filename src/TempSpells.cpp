@@ -109,36 +109,6 @@ void Smallcraft_TempSpells_PlayerScript::OnLogin(Player* player)
     }
 }
 
-/**
- * @brief Called after a player logs out.
- *
- * @param player The player that logged out.
- */
-void Smallcraft_TempSpells_PlayerScript::OnLogout(Player* player)
-{
-    // if the player is gone, return
-    if (!player)
-        return;
-
-    // get the player's group
-    Group* group = player->GetGroup();
-
-    // if the player is in a group, update the group's member list
-    if (group)
-    {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnLogout():: {} logged out.",
-            player->GetName()
-        );
-
-        // if the group composition or talent specs change, analyze (force) and update the group
-        if (Smallcraft_TempSpells::UpdateGroupMembers(group))
-        {
-            Smallcraft_TempSpells::AnalyzeGroup(group, true);
-            Smallcraft_TempSpells::UpdateGroup(group);
-        }
-    }
-}
 
 /**
  * @brief Called after a player changes their spec using the dual spec feature.
@@ -167,6 +137,34 @@ void Smallcraft_TempSpells_PlayerScript::OnAfterSpecSlotChanged(Player* player, 
         Smallcraft_TempSpells::UpdateGroupMembers(group);
         Smallcraft_TempSpells::AnalyzeGroup(group, true);
         Smallcraft_TempSpells::UpdateGroup(group);
+    }
+}
+
+/**
+ * @brief Called after a player is resurrected.
+ *
+ * @param player The player that was resurrected.
+ * @param restore_percent The percentage of health and mana the player was restored to.
+ * @param applySickness Whether or not the player was given resurrection sickness.
+ */
+void Smallcraft_TempSpells_PlayerScript::OnPlayerResurrect(Player* player, float /*restore_percent*/, bool /*applySickness*/)
+{
+    // if the player is gone, return
+    if (!player)
+        return;
+
+    // get the player's group
+    Group* group = player->GetGroup();
+
+    // if the player is in a group, update the group's member list
+    if (group)
+    {
+        LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
+        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnPlayerResurrect():: {} was resurrected. Updating player.",
+            player->GetName()
+        );
+
+        Smallcraft_TempSpells::UpdatePlayer(player);
     }
 }
 
@@ -483,7 +481,7 @@ void Smallcraft_TempSpells::UpdateGroup(Group* group)
         );
 
         // get the selected members for the dispel type
-        std::vector<SmallcraftGroupMemberInfo*> selectedMembers = _getMembersForTempSpell(group);
+        std::vector<SmallcraftGroupMemberInfo*> selectedMembers = _getMembersForTempSpell(group, dispelType);
 
         // log output the selected members
         if (selectedMembers.size() > 0)
@@ -838,7 +836,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
  * @param group The group to analyze.
  * @return std::vector<SmallcraftGroupMemberInfo*> A vector of SmallcraftGroupMemberInfo pointers for the members who should receive the temp spell.
  */
-std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTempSpell(Group* group)
+std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTempSpell(Group* group, DispelType dispelType)
 {
     // load (or create) the group's SmallcraftInfo
     SmallcraftGroupInfo* groupInfo = group->CustomData.GetDefault<SmallcraftGroupInfo>("SmallcraftGroupInfo");
@@ -864,6 +862,24 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
             playerRoleDescriptions.at(talentSpecInfo.at(potentialCandidate->talentSpec).role),
             potentialCandidate->player->IsInWorld() ? "ONLINE" : "OFFLINE"
         );
+    }
+
+    // iterate through the potentialCandidates and remove any that are a class with this dispel type in classToDispelTypes
+    for (auto it = potentialCandidates.begin(); it != potentialCandidates.end(); )
+    {
+        if (classToDispelTypes.at((*it)->myClass).find(dispelType) != classToDispelTypes.at((*it)->myClass).end())
+        {
+            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (class {} has their own {} dispel)",
+                (*it)->name,
+                EnumUtils::ToString((Classes)((*it)->myClass)).Title,
+                dispelTypeDescriptions.at(dispelType)
+            );
+            it = potentialCandidates.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
     }
 
     // iterate through the potentialCandidates and remove any that don't use mana
@@ -1008,7 +1024,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
         numDispelTypes += (*it)->tempSpells.size();
         if (numDispelTypes > smallestNumDispelTypes)
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (has {} dispel types, less than {})",
+            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (has {} dispel types, greater than {})",
                 (*it)->name,
                 numDispelTypes,
                 smallestNumDispelTypes

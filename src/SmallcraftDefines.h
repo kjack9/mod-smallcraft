@@ -74,6 +74,23 @@ std::map<uint8, SmallcraftTalentSpecInfo> talentSpecInfo =
     {uint8(TALENT_TREE_WARRIOR_PROTECTION),     SmallcraftTalentSpecInfo("Protection",      {},                                             ROLE_TANK)}
 };
 
+// Create a map between classes and the dispel types they have regardless of spec
+// This is used to help avoid weird situations like granting the mage version of
+// "Remove Curse" to a druid who already has its own class version if the druid is a tank.
+std::map<Classes, std::set<DispelType>> classToDispelTypes =
+{
+    {CLASS_DEATH_KNIGHT,    {DISPEL_DISEASE}},
+    {CLASS_DRUID,           {DISPEL_CURSE, DISPEL_POISON}},
+    {CLASS_HUNTER,          {}},
+    {CLASS_MAGE,            {DISPEL_CURSE}},
+    {CLASS_PALADIN,         {DISPEL_DISEASE, DISPEL_MAGIC, DISPEL_POISON}},
+    {CLASS_PRIEST,          {DISPEL_DISEASE, DISPEL_MAGIC}},
+    {CLASS_ROGUE,           {}},
+    {CLASS_SHAMAN,          {DISPEL_DISEASE, DISPEL_POISON}},
+    {CLASS_WARLOCK,         {}},
+    {CLASS_WARRIOR,         {}}
+};
+
 // create a map that maps dispel types to a string description
 std::map<DispelType, std::string> dispelTypeDescriptions =
 {
