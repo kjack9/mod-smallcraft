@@ -6,6 +6,16 @@
 #include "SharedDefines.h"
 #include "ObjectGuid.h"
 
+// create a class to hold player data
+class SmallcraftPlayerInfo : public DataMap::Base
+{
+public:
+    SmallcraftPlayerInfo() {}
+
+    // the player's latest spec
+    uint8 talentSpec = 0;
+};
+
 // create a class to hold group member data
 // some of this is redudant with the `Player` class, but we need it if the player disconnects
 class SmallcraftGroupMemberInfo : public DataMap::Base
@@ -20,6 +30,8 @@ public:
     Powers powerType;               // the player's power type (mana, rage, etc)
     uint8 talentSpec;               // the player's last-known spec
     std::set<uint32> tempSpells;    // spell IDs that have been or will be temporarily added to this player
+
+    bool scheduleUpdate = false;    // whether or not to update this player's information on the next update
 };
 
 // create a class to hold group data

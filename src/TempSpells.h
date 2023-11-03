@@ -33,6 +33,7 @@ public:
     Smallcraft_TempSpells_PlayerScript() : PlayerScript("Smallcraft_TempSpells_PlayerScript") {}
     void OnLogin(Player* player) override;
     void OnLogout(Player* player) override;
+    void OnUpdate(Player* player, uint32 p_time) override;
 };
 
 class Smallcraft_TempSpells_AllMapScript : public AllMapScript
@@ -49,10 +50,11 @@ class Smallcraft_TempSpells
 {
 public:
     Smallcraft_TempSpells() {}
-    static void UpdateGroupMembers(Group* group);
+    static bool UpdateGroupMembers(Group* group);
     static bool AnalyzeGroup(Group* group, bool force = false);
     static void UpdateGroup(Group* group);
     static void UpdatePlayers(Group* group);
+    static void UpdatePlayer(Player* player);
 private:
     static std::vector<SmallcraftGroupMemberInfo*> _getMembersForTempSpell(Group* group);
 };
