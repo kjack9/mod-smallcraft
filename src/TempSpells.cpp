@@ -109,7 +109,6 @@ void Smallcraft_TempSpells_PlayerScript::OnLogin(Player* player)
     }
 }
 
-
 /**
  * @brief Called after a player changes their spec using the dual spec feature.
  *
