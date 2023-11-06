@@ -10,9 +10,14 @@ SmallCraft assumes that your group has:
 - 3 to 5 players
 - 1 dedicated tank
 - 1 dedicated healer
+
+SmallCraft also assumes that the players in your group consist of:
 - At least one mana user
-- At least one player with some sort of CC
-- At least one player who is able to kite or off-tank
+- One player with some sort of long CC (e.g. polymorph, sap, root, etc)
+- One player who is able to slow/stun/snare
+- One player who is able to do light off-tanking
+
+One player may fulfil multiple of these requirements.
 
 ## Dependencies
 
