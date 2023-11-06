@@ -3,7 +3,9 @@
 # SmallCraft<br><sub>Smaller Raids, Better Parties</sub>
 
 ## What is this?
-SmallCraft helps make raids possible with a small party of  3-5 players. It makes changes to creatures, AI, spells, and other game mechanics in order to make this possible.
+SmallCraft helps make raids possible with a small party of 3 to 5 players. It makes changes to creatures, AI, spells, and other game mechanics in order to make this possible.
+
+The SmallCraft philosophy is to replicate the difficulty and mechanics of the original raid encounters as faithfully as possible while still making them reasonable with a small party. This may mean giving players spells, changing the AI of creatures, or even changing the mechanics of the encounter entirely.
 
 ## Requirements
 SmallCraft assumes that your group has:
@@ -20,7 +22,6 @@ SmallCraft also assumes that the players in your group consist of:
 One player may fulfil multiple of these requirements.
 
 ## Dependencies
-
 SmallCraft relies on [AutoBalance](https://github.com/azerothcore/mod-autobalance) to scale monsters health, damage, CC duration, and other stats. A recommended configuration file for AutoBalance will be provided in the future.
 
 ## Defaults
