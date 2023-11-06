@@ -49,6 +49,30 @@ Smallcraft.RaidChanges.Vanilla.ZulGurub.EdgeOfMadness = 1
 Smallcraft.RaidChanges.Vanilla.ZulGurub.Gahzranka = 1
 Smallcraft.RaidChanges.Vanilla.ZulGurub.Jindo = 1
 
+#   Smallcraft.RaidChanges.Vanilla.MoltenCore
+#       Description:
+#           Enable this feature for Molten Core. Will apply zone-wide changes. Must be
+#           enabled for individual boss changes take effect.
+#
+#       Default: 1 (On)
+#
+#   Smallcraft.RaidChanges.Vanilla.MoltenCore.<BossName>
+#       Description:
+#           Enable this feature for the specified boss.
+#
+#       Default: 1 (On)
+Smallcraft.RaidChanges.Vanilla.MoltenCore = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Lucifron = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Magmadar = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Gehennas = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Garr = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Shazzrah = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.BaronGeddon = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Golemagg = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Sulfuron = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Majordomo = 1
+Smallcraft.RaidChanges.Vanilla.MoltenCore.Ragnaros = 1
+
 
 ##################
 # Temporary Spells
