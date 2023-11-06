@@ -105,7 +105,7 @@ public:
             // Jeklik - Bat Aspect Boss
             // Blaze (23972)
             case (23972):
-                LOG_DEBUG("module.Smallcraft", "sc::sc_boss_jeklik_GlobalScript:: Correcting spell {} ({})...", spellInfo->Id, spellInfo->SpellName[0]);
+                LOG_DEBUG("module.Smallcraft", "sc::sc_boss_jeklik_GlobalScript:: Modifying spell {} ({})...", spellInfo->Id, spellInfo->SpellName[0]);
                 spellInfo->AttributesEx2 |= SPELL_ATTR2_CANT_CRIT;
                 break;
             default:
