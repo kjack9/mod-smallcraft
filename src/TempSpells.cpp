@@ -180,41 +180,14 @@ void Smallcraft_TempSpells_PlayerScript::OnPlayerResurrect(Player* player, float
  */
 void Smallcraft_TempSpells_AllMapScript::OnPlayerEnterAll(Map* map, Player* player)
 {
-    _handleEnterLeaveAll(map, player, true);
-}
-
-/**
- * @brief Called after a player leaves a map.
- *
- * @param map The map the player left.
- * @param player The player that left the map.
- */
-void Smallcraft_TempSpells_AllMapScript::OnPlayerLeaveAll(Map* map, Player* player)
-{
-    _handleEnterLeaveAll(map, player, false);
-}
-
-/**
- * @brief Handles enter and leave events for all players and maps.
- *
- * @param map The map the player entered or left.
- * @param player The player that entered or left.
- * @param entering True if entering, False if leaving.
- */
-void Smallcraft_TempSpells_AllMapScript::_handleEnterLeaveAll(Map* map, Player* player, bool entering)
-{
-    std::string enterLeave = entering ? "enters" : "leaves";
-
     // only if the player and map are valid
     if (!player || !map)
         return;
 
     LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:_handleEnterLeaveAll({}):: {} {} {}.",
-        enterLeave,
+    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: {} enters {}.",
         player->GetName(),
-        enterLeave,
         map->GetMapName()
     );
 
@@ -223,13 +196,11 @@ void Smallcraft_TempSpells_AllMapScript::_handleEnterLeaveAll(Map* map, Player* 
 
     if (!group)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:_handleEnterLeaveAll({}):: {} is not in a group.",
-            enterLeave,
+        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: {} is not in a group.",
             player->GetName()
         );
 
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:_handleEnterLeaveAll({}):: Remove {}'s temp spells.",
-            enterLeave,
+        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: Remove {}'s temp spells (if any).",
             player->GetName()
         );
 
@@ -248,6 +219,7 @@ void Smallcraft_TempSpells_AllMapScript::_handleEnterLeaveAll(Map* map, Player* 
 
     Smallcraft_TempSpells::UpdatePlayer(player);
 }
+
 
 /************************\
  * Smallcraft_TempSpells *
@@ -861,6 +833,22 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
             playerRoleDescriptions.at(talentSpecInfo.at(potentialCandidate->talentSpec).role),
             potentialCandidate->player->IsInWorld() ? "ONLINE" : "OFFLINE"
         );
+    }
+
+    // iterate through the potentialCandidates and remove any that are GMs
+    for (auto it = potentialCandidates.begin(); it != potentialCandidates.end(); )
+    {
+        if ((*it)->player->IsGameMaster())
+        {
+            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (is a GM)",
+                (*it)->name
+            );
+            it = potentialCandidates.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
     }
 
     // iterate through the potentialCandidates and remove any that are a class with this dispel type in classToDispelTypes
