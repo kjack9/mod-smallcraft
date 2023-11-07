@@ -41,7 +41,6 @@ class Smallcraft_TempSpells_AllMapScript : public AllMapScript
 public:
     Smallcraft_TempSpells_AllMapScript() : AllMapScript("Smallcraft_TempSpells_AllMapScript") {}
     void OnPlayerEnterAll(Map* map, Player* player) override;
-    void OnPlayerLeaveAll(Map* map, Player* player) override;
 private:
     void _handleEnterLeaveAll(Map* map, Player* player, bool entering);
 };
