@@ -11,7 +11,6 @@
 #       Default: 1 (On)
 Smallcraft.Enable = 1
 
-
 ##############
 # Raid Changes
 ##############
@@ -25,33 +24,29 @@ Smallcraft.Enable = 1
 #       Default: 1 (On)
 Smallcraft.RaidChanges.Enable = 1
 
-#   Smallcraft.RaidChanges.Vanilla.ZulGurub
+#   Smallcraft.RaidChanges.Vanilla.AhnQiraj
 #       Description:
-#           Enable this feature for Zul'Gurub. Will apply zone-wide changes. Must be
+#           Enable this feature for Ahn'Qiraj (20-player). Will apply zone-wide changes. Must be
 #           enabled for individual boss changes take effect.
 #
 #       Default: 1 (On)
 #
-#   Smallcraft.RaidChanges.Vanilla.ZulGurub.<BossName>
+#   Smallcraft.RaidChanges.Vanilla.AhnQiraj.<BossName>
 #       Description:
 #           Enable this feature for the specified boss.
 #
 #       Default: 1 (On)
-Smallcraft.RaidChanges.Vanilla.ZulGurub = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Venoxis = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Jeklik = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Marli = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Thekal = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Arlokk = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Hakkar = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Mandokir = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.EdgeOfMadness = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Gahzranka = 1
-Smallcraft.RaidChanges.Vanilla.ZulGurub.Jindo = 1
+Smallcraft.RaidChanges.Vanilla.AhnQiraj = 1
+#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Kurinnaxx = 1
+#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Rajaxx = 1
+#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Moam = 1
+#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Buru = 1
+#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Ayamiss = 1
+#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Ossirian = 1
 
 #   Smallcraft.RaidChanges.Vanilla.MoltenCore
 #       Description:
-#           Enable this feature for Molten Core. Will apply zone-wide changes. Must be
+#           Enable this feature for Molten Core (40-player). Will apply zone-wide changes. Must be
 #           enabled for individual boss changes take effect.
 #
 #       Default: 1 (On)
@@ -62,17 +57,40 @@ Smallcraft.RaidChanges.Vanilla.ZulGurub.Jindo = 1
 #
 #       Default: 1 (On)
 Smallcraft.RaidChanges.Vanilla.MoltenCore = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Lucifron = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Lucifron = 1
 Smallcraft.RaidChanges.Vanilla.MoltenCore.Magmadar = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Gehennas = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Garr = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Shazzrah = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.BaronGeddon = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Golemagg = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Sulfuron = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Majordomo = 1
-Smallcraft.RaidChanges.Vanilla.MoltenCore.Ragnaros = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Gehennas = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Garr = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Shazzrah = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.BaronGeddon = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Golemagg = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Sulfuron = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Majordomo = 1
+#Smallcraft.RaidChanges.Vanilla.MoltenCore.Ragnaros = 1
 
+#   Smallcraft.RaidChanges.Vanilla.ZulGurub
+#       Description:
+#           Enable this feature for Zul'Gurub (20-player). Will apply zone-wide changes. Must be
+#           enabled for individual boss changes take effect.
+#
+#       Default: 1 (On)
+#
+#   Smallcraft.RaidChanges.Vanilla.ZulGurub.<BossName>
+#       Description:
+#           Enable this feature for the specified boss.
+#
+#       Default: 1 (On)
+Smallcraft.RaidChanges.Vanilla.ZulGurub = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Venoxis = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Jeklik = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Marli = 1
+Smallcraft.RaidChanges.Vanilla.ZulGurub.Thekal = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Arlokk = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Hakkar = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Mandokir = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.EdgeOfMadness = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Gahzranka = 1
+#Smallcraft.RaidChanges.Vanilla.ZulGurub.Jindo = 1
 
 ##################
 # Temporary Spells
