@@ -2,7 +2,6 @@
 #include "Log.h"
 #include "ScriptMgr.h"
 #include "SpellInfo.h"
-
 #include "sc_boss_jeklik.cpp"
 #include "sc_boss_thekal.cpp"
 

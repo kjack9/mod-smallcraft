@@ -10,7 +10,8 @@ This document describes the changes made to Zul'Gurub by SmallCraft.
 ## Boss Changes
 
 ### High Priestess Jeklik (Bat Boss)
-- reschedule flying bats so they throw bombs predictably, preventing players from getting 1-shot by two bombs
+- only spawn one bomb bat, but the bat will throw bombs more frequently
+- bomb bat will not target the same player twice in a row (assuming there are other alive players)
 - spell Blaze (23972), the fire on the ground, can no longer crit
 
 ### High Priest Thekal (Tiger Boss)

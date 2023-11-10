@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "Chat.h"
 #include "Group.h"
+#include "ObjectMgr.h"
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "SharedDefines.h"
@@ -22,6 +23,17 @@ public:
     }
 };
 
+/**
+ * @brief Hijack an event from one EventMap and add it to another EventMap.
+ *
+ * @param eventId The event ID to hijack.
+ * @param oldMap The EventMap to hijack the event from.
+ * @param newMap The EventMap to hijack the event to.
+ * @param newTime The new time to schedule the event for.
+ * @param cancelOriginal Whether or not to cancel the original event.
+ * @return true If the event was hijacked.
+ * @return false If the event was not hijacked.
+ */
 bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono::duration<int64_t, std::milli> newTime = Milliseconds::max(), bool cancelOriginal = true)
 {
     if (oldMap.GetTimeUntilEvent(eventId) != Milliseconds::max())
@@ -37,6 +49,27 @@ bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono
     }
 
     return false;
+}
+
+/**
+ * @brief Get the Script ID uint32 from the ObjectMgr::ScriptNames store. If it does not
+ *        exist, add it to the store.
+ *
+ * @param scriptName Name of the SmallCraft script to get the ID for.
+ * @return uint32 Script ID for use in DB "ScriptName" overrides.
+ */
+uint32 GetScriptId(std::string scriptName)
+{
+    // The Script Names store in sObjectMgr is populated from script assignments in the DB.
+    // Since we are dynamically overriding those entries, there is no way for the
+    // ObjectMgr::LoadScriptNames() function to load our script name entries. So instead we
+    // will add them to the store here if they don't already exist.
+
+    if (sObjectMgr->GetScriptId(scriptName) == 0)
+    {
+        sObjectMgr->GetScriptNames().push_back(scriptName);
+    }
+    return sObjectMgr->GetScriptId(scriptName);
 }
 
 // Add all scripts

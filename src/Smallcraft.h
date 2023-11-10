@@ -43,5 +43,6 @@ public:
 };
 
 bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono::duration<int64_t, std::milli> newTime = Milliseconds::max(), bool cancelOriginal = true);
+uint32 GetScriptId (std::string scriptName);
 
 #endif // SMALLCRAFT_H
