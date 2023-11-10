@@ -498,10 +498,10 @@ public:
     {
         // Alter the AIs of creatures to use the SmallCraft AI without updating the DB
         // High Priestess Jeklik (14517)
-        creatureTemplates[14517]->ScriptID = GetScriptId("sc_boss_jeklik");
+        creatureTemplates[14517]->ScriptID = sObjectMgr->GetScriptId("sc_boss_jeklik");
 
         // Gurubashi Bat Rider (14750)
-        creatureTemplates[14750]->ScriptID = GetScriptId("sc_npc_batrider");
+        creatureTemplates[14750]->ScriptID = sObjectMgr->GetScriptId("sc_npc_batrider");
     }
 
 };
@@ -513,9 +513,9 @@ void load_sc_boss_jeklik()
     new sc_boss_jeklik_DatabaseScript();
 
     // High Priestess Jeklik (14517)
-    RegisterCreatureAI(sc_boss_jeklik);
+    RegisterSmallcraftCreatureAI(sc_boss_jeklik);
 
     // Gurubashi Bat Rider (14750)
-    RegisterCreatureAI(sc_npc_batrider);
+    RegisterSmallcraftCreatureAI(sc_npc_batrider);
 }
 

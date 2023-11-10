@@ -52,13 +52,12 @@ bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono
 }
 
 /**
- * @brief Get the Script ID uint32 from the ObjectMgr::ScriptNames store. If it does not
- *        exist, add it to the store.
+ * @brief Add the scriptName to the the ObjectMgr::ScriptNames store.
  *
- * @param scriptName Name of the SmallCraft script to get the ID for.
+ * @param scriptName Name of the SmallCraft script to add.
  * @return uint32 Script ID for use in DB "ScriptName" overrides.
  */
-uint32 GetScriptId(std::string scriptName)
+uint32 AddScriptName(std::string scriptName)
 {
     // The Script Names store in sObjectMgr is populated from script assignments in the DB.
     // Since we are dynamically overriding those entries, there is no way for the

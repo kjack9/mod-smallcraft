@@ -43,6 +43,8 @@ public:
 };
 
 bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono::duration<int64_t, std::milli> newTime = Milliseconds::max(), bool cancelOriginal = true);
-uint32 GetScriptId (std::string scriptName);
+
+uint32 AddScriptName(std::string scriptName);
+#define RegisterSmallcraftCreatureAI(ai_name) new GenericCreatureScript<ai_name>(#ai_name); AddScriptName(#ai_name);
 
 #endif // SMALLCRAFT_H
