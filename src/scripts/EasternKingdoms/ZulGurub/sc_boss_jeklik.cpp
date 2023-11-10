@@ -9,10 +9,6 @@
 #include "SpellScript.h"
 #include "TaskScheduler.h"
 #include "../../src/server/scripts/EasternKingdoms/ZulGurub/zulgurub.h"
-namespace ac
-{
-    #include "../../src/server/scripts/EasternKingdoms/ZulGurub/boss_jeklik.cpp"
-}
 
 enum Says
 {
@@ -518,14 +514,8 @@ void load_sc_boss_jeklik()
 
     // High Priestess Jeklik (14517)
     RegisterCreatureAI(sc_boss_jeklik);
-    LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik: registered AI for High Priestess Jeklik (14517), ID is ({}).",
-        GetScriptId("sc_boss_jeklik")
-    );
 
     // Gurubashi Bat Rider (14750)
     RegisterCreatureAI(sc_npc_batrider);
-    LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik: registered AI for Gurubashi Bat Rider (14750), ID is ({}).",
-        GetScriptId("sc_npc_batrider")
-    );
 }
 
