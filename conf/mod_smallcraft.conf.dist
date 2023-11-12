@@ -37,7 +37,7 @@ Smallcraft.RaidChanges.Enable = 1
 #
 #       Default: 1 (On)
 Smallcraft.RaidChanges.Vanilla.AhnQiraj = 1
-#Smallcraft.RaidChanges.Vanilla.AhnQiraj.Kurinnaxx = 1
+Smallcraft.RaidChanges.Vanilla.AhnQiraj.Kurinnaxx = 1
 #Smallcraft.RaidChanges.Vanilla.AhnQiraj.Rajaxx = 1
 #Smallcraft.RaidChanges.Vanilla.AhnQiraj.Moam = 1
 #Smallcraft.RaidChanges.Vanilla.AhnQiraj.Buru = 1

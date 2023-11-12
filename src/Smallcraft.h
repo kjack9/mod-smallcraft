@@ -42,9 +42,17 @@ public:
     Smallcraft_PlayerScript();
 };
 
-bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono::duration<int64_t, std::milli> newTime = Milliseconds::max(), bool cancelOriginal = true);
+namespace sc
+{
+    bool SpellHasAuraWithType(SpellInfo const* spellInfo, AuraType auraType, bool log = false);
+    bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono::duration<int64_t, std::milli> newTime = Milliseconds::max(), bool cancelOriginal = true);
+    void Talk(Creature* creature, std::string message, ChatMsg msgType, float distance = 1000.0f);
 
-uint32 AddScriptName(std::string scriptName);
-#define RegisterSmallcraftCreatureAI(ai_name) new GenericCreatureScript<ai_name>(#ai_name); AddScriptName(#ai_name);
+    uint32 AddScriptName(std::string scriptName);
+    // void AddSpellScript(uint32 spellId, std::string scriptName);
+}
+
+#define RegisterSmallcraftCreatureAI(ai_name) new GenericCreatureScript<ai_name>(#ai_name); sc::AddScriptName(#ai_name);
+// #define RegisterSmallcraftSpellScript(spell_id, spell_script) AddSpellScript(spell_id, #spell_script); RegisterSpellScriptWithArgs(spell_script, #spell_script);
 
 #endif // SMALLCRAFT_H

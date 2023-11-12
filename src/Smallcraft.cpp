@@ -23,6 +23,56 @@ public:
     }
 };
 
+namespace sc
+{
+/**
+ * @brief Check if a spell has an aura of the specified type.
+ *
+ * @param spellInfo The SpellInfo to check.
+ * @param auraType The AuraType to check for.
+ * @param log Whether or not to log debug messages.
+ * @return true If the spell has an aura of the specified type.
+ * @return false If the spell does not have an aura of the specified type.
+ */
+bool SpellHasAuraWithType(SpellInfo const* spellInfo, AuraType auraType, bool log = false)
+{
+    // if the spell is not defined, return false
+    if (!spellInfo)
+    {
+        if (log) { LOG_DEBUG("module.AutoBalance_DamageHealingCC", "AutoBalance_UnitScript::_isAuraWithEffectType: SpellInfo is null, returning false."); }
+        return false;
+    }
+
+    // if the spell doesn't have any effects, return false
+    if (!spellInfo->GetEffects().size())
+    {
+        if (log) { LOG_DEBUG("module.AutoBalance_DamageHealingCC", "AutoBalance_UnitScript::_isAuraWithEffectType: SpellInfo has no effects, returning false."); }
+        return false;
+    }
+
+    // iterate through the spell effects
+    for (SpellEffectInfo effect : spellInfo->GetEffects())
+    {
+        // if the effect is not an aura, continue to next effect
+        if (!effect.IsAura())
+        {
+            if (log) { LOG_DEBUG("module.AutoBalance_DamageHealingCC", "AutoBalance_UnitScript::_isAuraWithEffectType: SpellInfo has an effect that is not an aura, continuing to next effect."); }
+            continue;
+        }
+
+        if (effect.ApplyAuraName == auraType)
+        {
+            // if the effect is an aura of the target type, return true
+            LOG_DEBUG("module.AutoBalance_DamageHealingCC", "AutoBalance_UnitScript::_isAuraWithEffectType: SpellInfo has an aura of the target type, returning true.");
+            return true;
+        }
+    }
+
+    // if no aura effect of type auraType was found, return false
+    if (log) { LOG_DEBUG("module.AutoBalance_DamageHealingCC", "AutoBalance_UnitScript::_isAuraWithEffectType: SpellInfo has no aura of the target type, returning false."); }
+    return false;
+}
+
 /**
  * @brief Hijack an event from one EventMap and add it to another EventMap.
  *
@@ -52,6 +102,19 @@ bool HijackEvent(uint32 eventId, EventMap &oldMap, EventMap &newMap, std::chrono
 }
 
 /**
+ * @brief Send a chat message from a creature.
+ *
+ * @param creature The creature to send the message from.
+ * @param message The message to send.
+ * @param msgType The type of message to send.
+ * @param distance The distance to send the message.
+ */
+void Talk(Creature* creature, std::string message, ChatMsg msgType, float distance = 1000.0f)
+{
+    creature->Talk(std::string_view(message), msgType, LANG_UNIVERSAL, distance, nullptr);
+}
+
+/**
  * @brief Add the scriptName to the the ObjectMgr::ScriptNames store.
  *
  * @param scriptName Name of the SmallCraft script to add.
@@ -70,6 +133,29 @@ uint32 AddScriptName(std::string scriptName)
     }
     return sObjectMgr->GetScriptId(scriptName);
 }
+
+// void AddSpellScript(uint32 spellId, std::string scriptName)
+// {
+//     // get the spell script store from sObjectMgr
+//     SpellScriptsContainer& spellScriptStore = sObjectMgr->GetSpellScripts();
+
+//     // add the spell script to the ScriptNames store
+//     uint32 scriptId = AddScriptName(scriptName);
+
+//     // if the spell script store already has an entry for this spell ID, replace it
+//     auto it = spellScriptStore.find(spellId);
+//     if (it != spellScriptStore.end())
+//     {
+//         it->second = scriptId;
+//     }
+//     else
+//     {
+//         // otherwise, add a new entry
+//         spellScriptStore.insert(std::make_pair(spellId, scriptId));
+//     }
+// }
+
+} // namespace sc
 
 // Add all scripts
 void AddSmallcraftScripts()

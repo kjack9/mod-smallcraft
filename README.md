@@ -16,8 +16,11 @@ SmallCraft assumes that your group has:
 SmallCraft also assumes that the players in your group consist of:
 - At least one mana user
 - One player with some sort of long CC (e.g. polymorph, sap, root, etc)
-- One player who is able to slow/stun/snare
-- One player who is able to do light off-tanking
+- One player who is able to do AT LEAST one of:
+    - cast stun, sleep, OR banish
+    - off-tank
+
+Stun/sleep/banish are often used to trigger alternative mechanics to multiple tanks. You may, of course, simply off-tank as normal.
 
 One player may fulfil multiple of these requirements.
 
@@ -38,4 +41,5 @@ SmallCraft will progressively add more raids to its list of supported raids. The
 
 #### Vanilla
 - [Zul'Gurub (ZG)](docs/raids/vanilla/zg.md)
+- [Ruins of Ahn'Qiraj (AQ20)](docs/raids/vanilla/aq20.md)
 - [Molten Core (MC)](docs/raids/vanilla/mc.md)

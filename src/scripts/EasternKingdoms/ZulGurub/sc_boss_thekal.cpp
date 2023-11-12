@@ -1,19 +1,8 @@
-#include "GameObjectAI.h"
 #include "Log.h"
-#include "MoveSplineInit.h"
 #include "ScriptMgr.h"
-#include "ScriptedCreature.h"
 #include "Smallcraft.h"
-#include "SmartAI.h"
-#include "SpellInfo.h"
-#include "SpellScript.h"
 #include "TaskScheduler.h"
 #include "../../src/server/scripts/EasternKingdoms/ZulGurub/zulgurub.h"
-
-namespace ac_thekal
-{
-    #include "../../src/server/scripts/EasternKingdoms/ZulGurub/boss_thekal.cpp"
-}
 
 class sc_boss_thekal_DatabaseScript : public DatabaseScript
 {
