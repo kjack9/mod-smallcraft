@@ -3,7 +3,8 @@
 #include "ScriptMgr.h"
 #include "SpellInfo.h"
 
-#include "sc_boss_magmadar.cpp"
+// Load function declarations
+void load_sc_boss_magmadar();
 
 void load_sc_instance_molten_core()
 {

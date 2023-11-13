@@ -3,8 +3,9 @@
 #include "ScriptMgr.h"
 #include "SpellInfo.h"
 
-#include "sc_boss_jeklik.cpp"
-#include "sc_boss_thekal.cpp"
+// Load function declarations
+void load_sc_boss_jeklik();
+void load_sc_boss_thekal();
 
 void load_sc_instance_zulgurub()
 {
