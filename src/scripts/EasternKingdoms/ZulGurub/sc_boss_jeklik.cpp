@@ -108,56 +108,18 @@ struct sc_boss_jeklik : public BossAI
     {
         BossAI::Reset();
 
-        // allow the scheduler to interrupt casting
-        scheduler.ClearValidator();
-
-        // start invisible so we can setup the green channeling effect
-        me->SetVisible(false);
-
         me->SetHomePosition(JeklikCaveHomePosition);
 
         me->SetDisableGravity(false);
         me->SetReactState(REACT_PASSIVE);
         BossAI::SetCombatMovement(false);
 
-        // once the path for her to come down to the ground starts, it appears to be near-impossible to stop it
-        // instead, simply wait the 3 seconds it takes the path to complete, then teleport her home
-        scheduler.Schedule(3s, [this](TaskContext)
-        {
-            // teleport back to cave
-            float x, y, z, o;
-            JeklikCaveHomePosition.GetPosition(x, y, z, o);
-
-            me->NearTeleportTo(x, y, z, o);
-        });
-
-        // casting effect
-        scheduler.Schedule(4s, [this](TaskContext)
-        {
-            DoCastSelf(SPELL_GREEN_CHANNELING, true);
-
-        });
-
-        // restore visibility and unlock root
-        scheduler.Schedule(5s, [this](TaskContext)
-        {
-            me->SetVisible(true);
-            me->ClearUnitState(UNIT_STATE_ROOT);
-        });
+        DoCastSelf(SPELL_GREEN_CHANNELING, true);
     }
 
     void JustEngagedWith(Unit* who) override
     {
         BossAI::JustEngagedWith(who);
-
-        // don't interrupt casting
-        scheduler.SetValidator([this]
-        {
-            return !me->HasUnitState(UNIT_STATE_CASTING);
-        });
-
-        // cancel the casting effect if it hasn't happened already
-        scheduler.CancelAll();
 
         Talk(SAY_AGGRO);
         DoZoneInCombat();
@@ -177,10 +139,8 @@ struct sc_boss_jeklik : public BossAI
         SetCombatMovement(true);
         me->SetReactState(REACT_AGGRESSIVE);
 
-        scheduler.CancelAll();
-
         //
-        // PHASE 1
+        // Phase 1
         //
         LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik:: PHASE ONE");
         // Charge
@@ -289,28 +249,12 @@ struct sc_boss_jeklik : public BossAI
 
     void EnterEvadeMode(EvadeReason why) override
     {
-        // enter evade mode
-        BossAI::EnterEvadeMode(why);
-
         if (why != EvadeReason::EVADE_REASON_NO_PATH)
         {
-            // make invisible to hide wonky-looking movement
-            me->SetVisible(false);
-
-            // cancel any pending moves and stop moving
-            me->GetMotionMaster()->Clear();
-            me->AddUnitState(UNIT_STATE_ROOT);
-
-            Reset();
+            me->DespawnOnEvade(5s);
         }
-    }
 
-    void UpdateAI(uint32 diff) override
-    {
-        // ensures that the scheduler gets updated even out of combat
-        scheduler.Update(diff);
-
-        BossAI::UpdateAI(diff);
+        BossAI::EnterEvadeMode(why);
     }
 
     void JustDied(Unit* killer) override
@@ -510,12 +454,12 @@ void load_sc_boss_jeklik()
 {
     LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/Jeklik is enabled.");
 
-    new sc_boss_jeklik_DatabaseScript();
-
     // High Priestess Jeklik (14517)
     RegisterSmallcraftCreatureAI(sc_boss_jeklik);
 
     // Gurubashi Bat Rider (14750)
     RegisterSmallcraftCreatureAI(sc_npc_batrider);
+
+    new sc_boss_jeklik_DatabaseScript();
 }
 
