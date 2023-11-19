@@ -10,6 +10,8 @@
 #include "TaskScheduler.h"
 #include "../../src/server/scripts/EasternKingdoms/ZulGurub/zulgurub.h"
 
+namespace sc
+{
 enum Says
 {
     // Jeklik
@@ -142,20 +144,20 @@ struct boss_jeklik : public BossAI
         //
         // Phase 1
         //
-        LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik:: PHASE ONE");
+        LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_jeklik:: PHASE ONE");
         // Charge
         scheduler.Schedule(10s, 20s, PHASE_ONE, [this](TaskContext context)
         {
             // charge the nearest player that is at least 8 yards away (charge min distance)
             if (Unit* target = SelectTarget(SelectTargetMethod::MinDistance, 0, -8.0f, false, false))
             {
-                LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik::UpdateAI:: Charge successful (target: {})", target->GetName());
+                LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_jeklik::UpdateAI:: Charge successful (target: {})", target->GetName());
                 DoCast(target, SPELL_CHARGE);
                 AttackStart(target);
             }
             else
             {
-                LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik::UpdateAI:: Charge failed (no target available)");
+                LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_jeklik::UpdateAI:: Charge failed (no target available)");
             }
             context.Repeat(15s, 30s);
         // Pierce Armor
@@ -200,7 +202,7 @@ struct boss_jeklik : public BossAI
         //
         ScheduleHealthCheckEvent(50, [&]
         {
-            LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik:: PHASE TWO");
+            LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_jeklik:: PHASE TWO");
             me->RemoveAurasDueToSpell(SPELL_BAT_FORM);
             DoResetThreatList();
 
@@ -238,7 +240,7 @@ struct boss_jeklik : public BossAI
             {
                 if (me->GetThreatMgr().GetThreatListSize())
                 {
-                    LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik:: Spawn Flying Bat");
+                    LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_jeklik:: Spawn Flying Bat");
                     Talk(SAY_CALL_RIDERS);
                     me->SummonCreature(NPC_BATRIDER, SpawnBatRider, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT);
                 }
@@ -291,7 +293,7 @@ struct npc_batrider : public CreatureAI
             me->ToTempSummon()->GetSummoner()->GetEntry() == NPC_PRIESTESS_JEKLIK
         )
         {
-            LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider::InitializeAI: BATRIDER_MODE_BOSS");
+            LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:npc_batrider::InitializeAI: BATRIDER_MODE_BOSS");
             _mode = BATRIDER_MODE_BOSS;
 
             // make the bat rider unattackable
@@ -327,7 +329,7 @@ struct npc_batrider : public CreatureAI
 
                 if (_nextTarget)
                 {
-                    LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider:: throwing bomb at {}", _nextTarget->GetName());
+                    LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:npc_batrider:: throwing bomb at {}", _nextTarget->GetName());
                     DoCast(_nextTarget, SPELL_BATRIDER_THROW_LIQUID_FIRE);
                     _lastTarget = _nextTarget;                              // save the next target as the last target
                 }
@@ -338,7 +340,7 @@ struct npc_batrider : public CreatureAI
         // otherwise, trash mode
         else
         {
-            LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider::InitializeAI: BATRIDER_MODE_TRASH");
+            LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:npc_batrider::InitializeAI: BATRIDER_MODE_TRASH");
             _mode = BATRIDER_MODE_TRASH;
 
             me->SetReactState(REACT_DEFENSIVE);
@@ -412,7 +414,7 @@ struct npc_batrider : public CreatureAI
             // if the creature isn't moving, run the loop
             if (!me->isMoving())
             {
-                LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider::UpdateAI: not moving, running loop");
+                LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:npc_batrider::UpdateAI: not moving, running loop");
                 // enable flying
                 me->SetCanFly(true);
                 // send the rider on its loop
@@ -435,7 +437,7 @@ struct npc_batrider : public CreatureAI
 
 void load_sc_boss_jeklik()
 {
-    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/Jeklik is enabled.");
+    LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/Zul'Gurub/Jeklik is enabled.");
 
     // High Priestess Jeklik (14517)
     RegisterCreatureAI(boss_jeklik);
@@ -443,4 +445,4 @@ void load_sc_boss_jeklik()
     // Gurubashi Bat Rider (14750)
     RegisterCreatureAI(npc_batrider);
 }
-
+} // namespace sc

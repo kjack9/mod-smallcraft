@@ -27,8 +27,8 @@ void Smallcraft_TempSpells_GroupScript::OnAddMember(Group* group, ObjectGuid gui
 {
     Player* addedPlayer = ObjectAccessor::FindPlayer(guid);
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:OnAddMember():: {} added to {}'s group.",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft:: ----------------------------------------------------");
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:OnAddMember():: {} added to {}'s group.",
         addedPlayer ? addedPlayer->GetName() : "Unknown",
         group->GetLeaderName()
     );
@@ -49,8 +49,8 @@ void Smallcraft_TempSpells_GroupScript::OnRemoveMember(Group* group, ObjectGuid 
 {
     Player* removedPlayer = ObjectAccessor::FindPlayer(guid);
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:OnRemoveMember():: {} leaves {}'s group.",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft:: ----------------------------------------------------");
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:OnRemoveMember():: {} leaves {}'s group.",
         removedPlayer ? removedPlayer->GetName() : "Unknown",
         group->GetLeaderName()
     );
@@ -61,7 +61,7 @@ void Smallcraft_TempSpells_GroupScript::OnRemoveMember(Group* group, ObjectGuid 
     // if the removed member is in the member list, remove them
     if (groupInfo->members.find(guid) != groupInfo->members.end())
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:OnRemoveMember():: {} is in the member list. Removing them.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:OnRemoveMember():: {} is in the member list. Removing them.",
             removedPlayer ? removedPlayer->GetName() : "Unknown"
         );
         groupInfo->members.erase(guid);
@@ -94,8 +94,8 @@ void Smallcraft_TempSpells_PlayerScript::OnLogin(Player* player)
     if (group)
     {
 
-        LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnLogin():: {} logged in.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft:: ----------------------------------------------------");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_PlayerScript:OnLogin():: {} logged in.",
             player->GetName()
         );
 
@@ -126,8 +126,8 @@ void Smallcraft_TempSpells_PlayerScript::OnAfterSpecSlotChanged(Player* player, 
     // if the player is in a group, update the group's member list
     if (group)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnAfterSpecSlotChanged():: {} changed their spec slot to slot {}.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft:: ----------------------------------------------------");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_PlayerScript:OnAfterSpecSlotChanged():: {} changed their spec slot to slot {}.",
             player->GetName(),
             newSlot
         );
@@ -157,8 +157,8 @@ void Smallcraft_TempSpells_PlayerScript::OnPlayerResurrect(Player* player, float
     // if the player is in a group, update the group's member list
     if (group)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_PlayerScript:OnPlayerResurrect():: {} was resurrected. Updating player.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft:: ----------------------------------------------------");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_PlayerScript:OnPlayerResurrect():: {} was resurrected. Updating player.",
             player->GetName()
         );
 
@@ -183,9 +183,9 @@ void Smallcraft_TempSpells_AllMapScript::OnPlayerEnterAll(Map* map, Player* play
     if (!player || !map)
         return;
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft:: ----------------------------------------------------");
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft:: ----------------------------------------------------");
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: {} enters {}.",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: {} enters {}.",
         player->GetName(),
         map->GetMapName()
     );
@@ -195,11 +195,11 @@ void Smallcraft_TempSpells_AllMapScript::OnPlayerEnterAll(Map* map, Player* play
 
     if (!group)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: {} is not in a group.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: {} is not in a group.",
             player->GetName()
         );
 
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: Remove {}'s temp spells (if any).",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_AllMapScript:OnPlayerEnterAll():: Remove {}'s temp spells (if any).",
             player->GetName()
         );
 
@@ -254,7 +254,7 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
             newMemberInfo.name = player->GetName();
             newMemberInfo.talentSpec = (uint8)player->GetSpec(player->GetActiveSpec());
 
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: Adding {} ({} {})",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: Adding {} ({} {})",
                 newMemberInfo.name,
                 talentSpecInfo.find(newMemberInfo.talentSpec) != talentSpecInfo.end() ? talentSpecInfo.at(newMemberInfo.talentSpec).description : "Unknown",
                 EnumUtils::ToString((Classes)(newMemberInfo.myClass)).Title
@@ -274,7 +274,7 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
             uint32 newTalentSpec = (uint8)player->GetSpec(player->GetActiveSpec());
             if (memberInfo->talentSpec != newTalentSpec)
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {}'s talent spec has changed from {} ({}) to {} ({}).",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {}'s talent spec has changed from {} ({}) to {} ({}).",
                     memberInfo->name,
                     talentSpecInfo.find(memberInfo->talentSpec) != talentSpecInfo.end() ? talentSpecInfo.at(memberInfo->talentSpec).description : "Unknown",
                     memberInfo->talentSpec,
@@ -289,7 +289,7 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
             // see if this member is scheduled for an update
             if (memberInfo->scheduleUpdate)
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {} is scheduled for an update.",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {} is scheduled for an update.",
                     memberInfo->name
                 );
                 groupListUpdated = true;
@@ -299,7 +299,7 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
 
     if (!groupListUpdated)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {}'s group is unchanged.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroupMembers:: {}'s group is unchanged.",
             group->GetLeaderName()
         );
     }
@@ -315,8 +315,8 @@ bool Smallcraft_TempSpells::UpdateGroupMembers(Group* group)
  */
 bool Smallcraft_TempSpells::AnalyzeGroup(Group* group, bool force)
 {
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup()");
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: Group Leader = {}", group->GetLeaderName());
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup()");
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: Group Leader = {}", group->GetLeaderName());
 
     // get (or create) the group's SmallcraftInfo
     SmallcraftGroupInfo* groupInfo = group->CustomData.GetDefault<SmallcraftGroupInfo>("SmallcraftGroupInfo");
@@ -329,7 +329,7 @@ bool Smallcraft_TempSpells::AnalyzeGroup(Group* group, bool force)
         numOnlinePlayers++;
     });
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: Group Members | Tracked / Online / Total = {} / {} / {}",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: Group Members | Tracked / Online / Total = {} / {} / {}",
         groupInfo->members.size(),
         numOnlinePlayers,
         group->GetMembersCount()
@@ -361,7 +361,7 @@ bool Smallcraft_TempSpells::AnalyzeGroup(Group* group, bool force)
         }
 
         // log output the dispel types this member has
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: {} | is a {} {} ({}). They are {}. Their spec can cast dispel types: {}",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: {} | is a {} {} ({}). They are {}. Their spec can cast dispel types: {}",
             memberInfo->name,
             talentSpecInfo.find(memberInfo->talentSpec)->second.description,
             EnumUtils::ToString((Classes)(memberInfo->myClass)).Title,
@@ -373,7 +373,7 @@ bool Smallcraft_TempSpells::AnalyzeGroup(Group* group, bool force)
         // if the player is scheduled for an update, force update
         if (memberInfo->scheduleUpdate)
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: {} is scheduled for an update.",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: {} is scheduled for an update.",
                 memberInfo->name
             );
             force = true;
@@ -387,7 +387,7 @@ bool Smallcraft_TempSpells::AnalyzeGroup(Group* group, bool force)
     }
 
     // log output the dispel types the group has
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group has: {}",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group has: {}",
         groupDispelTypesString
     );
 
@@ -402,33 +402,33 @@ bool Smallcraft_TempSpells::AnalyzeGroup(Group* group, bool force)
     }
 
     // log output the dispel types the group is missing
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group is missing: {}",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group is missing: {}",
         groupMissingDispelTypesString
     );
 
     // if the force flag is set, return true
     if (force)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group will be updated (forced).");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group will be updated (forced).");
         return true;
     }
     // if the group's missing dispel types list has changed, return true
     // if the group has no dispel types, return true
     else if ((groupInfo->dispelTypesWeHave.size() == 0) || (oldDispelTypesWeHave != groupInfo->dispelTypesWeHave))
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group needs to be updated.");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group needs to be updated.");
         return true;
     }
     else
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group does NOT need to be updated.");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:AnalyzeGroup:: The group does NOT need to be updated.");
         return false;
     }
 }
 
 void Smallcraft_TempSpells::UpdateGroup(Group* group)
 {
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup()");
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroup()");
 
     // get (or create) the group's SmallcraftInfo
     SmallcraftGroupInfo* groupInfo = group->CustomData.GetDefault<SmallcraftGroupInfo>("SmallcraftGroupInfo");
@@ -438,7 +438,7 @@ void Smallcraft_TempSpells::UpdateGroup(Group* group)
     {
         SmallcraftGroupMemberInfo* memberInfo = &member.second;
         memberInfo->tempSpells.clear();
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: {}'s temp spell list has been reset.",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: {}'s temp spell list has been reset.",
             memberInfo->name
         );
     }
@@ -446,7 +446,7 @@ void Smallcraft_TempSpells::UpdateGroup(Group* group)
     // iterate through the dispel types we need (dispelTypesWeAreMissing) and determine which player(s) should receive the temp spell
     for (DispelType dispelType : groupInfo->dispelTypesWeAreMissing)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: The group needs a {} dispel.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroup:: The group needs a {} dispel.",
             dispelTypeDescriptions.at(dispelType)
         );
 
@@ -461,14 +461,14 @@ void Smallcraft_TempSpells::UpdateGroup(Group* group)
             {
                 selectedMembersString += selectedMember->name + " ";
             }
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: Selected members for dispel type {}: {}",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroup:: Selected members for dispel type {}: {}",
                 dispelTypeDescriptions.at(dispelType),
                 selectedMembersString
             );
         }
         else
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: No suitable members could be found for dispel type {}.",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroup:: No suitable members could be found for dispel type {}.",
                 dispelTypeDescriptions.at(dispelType)
             );
         }
@@ -479,7 +479,7 @@ void Smallcraft_TempSpells::UpdateGroup(Group* group)
             uint32 newSpellId = sConfigMgr->GetOption<uint32>(dispelTypeToConfigOptionString.at(dispelType), 0);
             if (newSpellId)
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: Add spell {} ({}) to {}'s temp spells.",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_updateGroup:: Add spell {} ({}) to {}'s temp spells.",
                     newSpellId,
                     sSpellMgr->GetSpellInfo(newSpellId)->SpellName[0],
                     selectedMember->name
@@ -488,7 +488,7 @@ void Smallcraft_TempSpells::UpdateGroup(Group* group)
             }
             else
             {
-                LOG_ERROR("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: Invalid spell ID for dispel type {}.",
+                LOG_ERROR("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_updateGroup:: Invalid spell ID for dispel type {}.",
                     dispelTypeDescriptions.at(dispelType)
                 );
             }
@@ -523,7 +523,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     // if the player is gone, do nothing
     if (!player || !player->GetMap())
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer(Unknown?):: is inaccessible or otherwise not in the world.");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer(Unknown?):: is inaccessible or otherwise not in the world.");
         return;
     }
 
@@ -532,7 +532,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     // if the player isn't in a group
     if (!player->GetGroup())
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: is not in a group.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: is not in a group.",
             player->GetName()
         );
 
@@ -549,7 +549,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
 
     )
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: is in a group and in an instance that matches the configured settings.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: is in a group and in an instance that matches the configured settings.",
             player->GetName()
         );
 
@@ -560,7 +560,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
         // if this group doesn't contain info about them, something has gone wrong
         if (!memberInfo)
         {
-            LOG_ERROR("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: is not in the group's member list.",
+            LOG_ERROR("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: is not in the group's member list.",
                 player->GetName()
             );
             return;
@@ -568,7 +568,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     }
     else
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: is in a group but not in an instance that matches the configured settings.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: is in a group but not in an instance that matches the configured settings.",
             player->GetName()
         );
 
@@ -579,7 +579,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     // this allows them to release and run back to the dungeon without their spells being shuffled around every time they die
     if (!player->IsAlive() && player->GetGroup())
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: is not alive. No changes while dead and in a group.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: is not alive. No changes while dead and in a group.",
             player->GetName()
         );
 
@@ -596,7 +596,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     // connect to the Characters DB and retrieve a uint32 set of all the spell IDs that have been granted for this player's GUID
     std::set<uint32> alreadyGrantedSpellIDs;
     std::string queryString = "SELECT SpellID FROM custom_smallcraft_tempspells WHERE guid = " + std::to_string(player->GetGUID().GetRawValue());
-    LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Query: {}",
+    LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Query: {}",
         player->GetName(),
         queryString
     );
@@ -606,7 +606,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     // if the query returned a result, iterate through the results and add them to the alreadyGrantedSpellIDs set
     if (result)
     {
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Query returned {} results.",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Query returned {} results.",
             player->GetName(),
             result->GetRowCount()
         );
@@ -618,14 +618,14 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     }
     else
     {
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Query returned no results.",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Query returned no results.",
             player->GetName()
         );
     }
 
     if (alreadyGrantedSpellIDs.size())
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: has {} spells in the database.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: has {} spells in the database.",
             player->GetName(),
             alreadyGrantedSpellIDs.size()
         );
@@ -637,14 +637,14 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
             alreadyGrantedSpellIDsString += std::to_string(spellID) + " ";
         }
 
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: already granted spells: {}",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: already granted spells: {}",
             player->GetName(),
             alreadyGrantedSpellIDsString
         );
     }
     else
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: has no spells in the database.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: has no spells in the database.",
             player->GetName()
         );
     }
@@ -664,7 +664,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     // if there are any spells to remove, remove them
     if (spellsToRemove.size())
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: has {} spells to remove.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: has {} spells to remove.",
             player->GetName(),
             spellsToRemove.size()
         );
@@ -686,7 +686,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
             spellsToRemoveString += std::to_string(spellID) + " ";
         }
 
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: spells to remove: {}",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: spells to remove: {}",
             player->GetName(),
             spellsToRemoveString
         );
@@ -696,7 +696,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
         {
             if (player->HasSpell(spellID))
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: remove spell {} ({}) from spellbook.",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: remove spell {} ({}) from spellbook.",
                     player->GetName(),
                     spellID,
                     sSpellMgr->GetSpellInfo(spellID)->SpellName[0]
@@ -705,7 +705,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
             }
             else
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: does not have spell {} ({}) in their spellbook.",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: does not have spell {} ({}) in their spellbook.",
                     player->GetName(),
                     spellID,
                     sSpellMgr->GetSpellInfo(spellID)->SpellName[0]
@@ -724,7 +724,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
             }
             spellsToRemoveStringForQuery.pop_back();
             std::string deleteSQLString = "DELETE FROM custom_smallcraft_tempspells WHERE guid = " + std::to_string(player->GetGUID().GetRawValue()) + " AND SpellID IN (" + spellsToRemoveStringForQuery + ")";
-            LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Delete query: {}",
+            LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Delete query: {}",
                 player->GetName(),
                 deleteSQLString
             );
@@ -733,7 +733,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
     }
     else
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: has no spells to remove.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: has no spells to remove.",
             player->GetName()
         );
     }
@@ -745,7 +745,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
         {
             // we don't want to remove spells later that we didn't add, so just skip this spell entirely
             spellsToAdd.erase(spellID);
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: already has spell {} ({}) in their spellbook.",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: already has spell {} ({}) in their spellbook.",
                 player->GetName(),
                 spellID,
                 sSpellMgr->GetSpellInfo(spellID)->SpellName[0]
@@ -771,7 +771,7 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
         {
             if (!player->HasSpell(spellID))
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: add spell {} ({}) to spellbook.",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: add spell {} ({}) to spellbook.",
                     player->GetName(),
                     spellID,
                     sSpellMgr->GetSpellInfo(spellID)->SpellName[0]
@@ -788,14 +788,14 @@ void Smallcraft_TempSpells::UpdatePlayer(Player* player)
         }
         spellsToAddStringForQuery.pop_back();
         std::string insertSQLString = "INSERT INTO custom_smallcraft_tempspells (guid, SpellID) VALUES " + spellsToAddStringForQuery;
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Insert query: {}",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells::UpdatePlayer({}):: Insert query: {}",
             player->GetName(),
             insertSQLString
         );
         CharacterDatabase.Execute(insertSQLString);
     }
     else {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells::UpdatePlayer({}):: has no spells to add.",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells::UpdatePlayer({}):: has no spells to add.",
             player->GetName()
         );
     }
@@ -820,12 +820,12 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
         potentialCandidates.push_back(&member.second);
     }
 
-    LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: All group members:");
+    LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: All group members:");
 
     // output the name, class, spec, and role of each member
     for (SmallcraftGroupMemberInfo* potentialCandidate : potentialCandidates)
     {
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: {} | {} {} | {} | {}",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: {} | {} {} | {} | {}",
             potentialCandidate->name,
             talentSpecInfo.find(potentialCandidate->talentSpec) != talentSpecInfo.end() ? talentSpecInfo.at(potentialCandidate->talentSpec).description : "Unknown",
             EnumUtils::ToString((Classes)(potentialCandidate->myClass)).Title,
@@ -839,7 +839,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     {
         if ((*it)->player->IsGameMaster())
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (is a GM)",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (is a GM)",
                 (*it)->name
             );
             it = potentialCandidates.erase(it);
@@ -855,7 +855,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     {
         if (classToDispelTypes.at((*it)->myClass).find(dispelType) != classToDispelTypes.at((*it)->myClass).end())
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (class {} has their own {} dispel)",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (class {} has their own {} dispel)",
                 (*it)->name,
                 EnumUtils::ToString((Classes)((*it)->myClass)).Title,
                 dispelTypeDescriptions.at(dispelType)
@@ -873,7 +873,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     {
         if ((*it)->powerType != Powers::POWER_MANA)
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (does not use mana)",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (does not use mana)",
                 (*it)->name
             );
             it = potentialCandidates.erase(it);
@@ -902,7 +902,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     {
         if (configValueToRole.find(rolePref) == configValueToRole.end())
         {
-            LOG_ERROR("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Invalid role preference: {}",
+            LOG_ERROR("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Invalid role preference: {}",
                 rolePref
             );
 
@@ -923,7 +923,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     for (std::string rolePref : rolePrefStringVector) {
         rolePrefDebugString += rolePref + " ";
     }
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Role preferences: {}",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Role preferences: {}",
         rolePrefDebugString
     );
 
@@ -932,18 +932,18 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     PlayerRole selectedRole = ROLE_NONE;
     for (PlayerRole rolePref : rolePrefVector)
     {
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Attempting to find a candidate for role {}",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Attempting to find a candidate for role {}",
             playerRoleDescriptions.at(rolePref)
         );
         for (auto it = potentialCandidates.begin(); it != potentialCandidates.end(); )
         {
-            LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Checking {}",
+            LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Checking {}",
                 (*it)->name
             );
 
             if (talentSpecInfo.at((*it)->talentSpec).role == rolePref)
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Selected role is {}",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Selected role is {}",
                     playerRoleDescriptions.at(rolePref)
                 );
                 selectedRole = rolePref;
@@ -956,7 +956,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
         }
         if (selectedRole != ROLE_NONE)
         {
-            LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Found a candidate for role {}",
+            LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Found a candidate for role {}",
                 playerRoleDescriptions.at(selectedRole)
             );
             break;
@@ -966,14 +966,14 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     // if the selected role is not ROLE_NONE, remove any candidates that do not match the selected role
     if (selectedRole != ROLE_NONE)
     {
-        LOG_TRACE("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove any candidates that do not match role {}",
+        LOG_TRACE("module.SmallCraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove any candidates that do not match role {}",
             playerRoleDescriptions.at(selectedRole)
         );
         for (auto it = potentialCandidates.begin(); it != potentialCandidates.end(); )
         {
             if (talentSpecInfo.at((*it)->talentSpec).role != selectedRole)
             {
-                LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (does not match selected role)",
+                LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (does not match selected role)",
                     (*it)->name
                 );
                 it = potentialCandidates.erase(it);
@@ -999,7 +999,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
         }
     }
 
-    LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Smallest number of dispel types is {}",
+    LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Smallest number of dispel types is {}",
         smallestNumDispelTypes
     );
 
@@ -1010,7 +1010,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
         numDispelTypes += (*it)->tempSpells.size();
         if (numDispelTypes > smallestNumDispelTypes)
         {
-            LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (has {} dispel types, greater than {})",
+            LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Remove {} (has {} dispel types, greater than {})",
                 (*it)->name,
                 numDispelTypes,
                 smallestNumDispelTypes
@@ -1026,13 +1026,13 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     // if there are no candidates left, return an empty vector
     if (potentialCandidates.size() == 0)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: No candidates remain.");
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: No candidates remain.");
         return std::vector<SmallcraftGroupMemberInfo*>();
     }
     // if there is only one candidate, return the list
     else if (potentialCandidates.size() == 1)
     {
-        LOG_DEBUG("module.Smallcraft", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Only one candidate remains: {}",
+        LOG_DEBUG("module.SmallCraft.TempSpells", "Smallcraft_TempSpells_GroupScript:_getMembersForTempSpell:: Only one candidate remains: {}",
             potentialCandidates[0]->name
         );
         return potentialCandidates;
@@ -1061,7 +1061,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
 
 void load_sc_tempspells()
 {
-    LOG_DEBUG("module.Smallcraft", "SmallCraft: Temp Spells is enabled.");
+    LOG_DEBUG("module.SmallCraft.TempSpells", "SmallCraft: Temp Spells is enabled.");
     new Smallcraft_TempSpells_GroupScript();
     new Smallcraft_TempSpells_PlayerScript();
     new Smallcraft_TempSpells_AllMapScript();

@@ -13,11 +13,13 @@
 #include "TaskScheduler.h"
 #include "../../src/server/scripts/Kalimdor/RuinsOfAhnQiraj/ruins_of_ahnqiraj.h"
 
-namespace ac_kurinnaxx
+namespace ac
 {
     #include "../../src/server/scripts/Kalimdor/RuinsOfAhnQiraj/boss_kurinnaxx.cpp"
 }
 
+namespace sc
+{
 enum Spells
 {
     SPELL_MORTAL_WOUND              = 25646,
@@ -89,7 +91,7 @@ struct boss_kurinnaxx : public BossAI
         // if the spell that hit Kurinnaxx is a stun
         if (sc::SpellHasAuraWithType(spellInfo, AuraType::SPELL_AURA_MOD_STUN))
         {
-            LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx was hit by a stun spell! {} ({})",
+            LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx was hit by a stun spell! {} ({})",
                 spellInfo->SpellName[0],
                 spellInfo->Id
             );
@@ -105,7 +107,7 @@ struct boss_kurinnaxx : public BossAI
                 !_immuneToStun                                                          // our own stun immunity tracking
             )
             {
-                LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Transitioning to PHASE_CHASE.");
+                LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Transitioning to PHASE_CHASE.");
 
                 // schedule events for PHASE_CHASE
                 _phaseChase();
@@ -133,10 +135,15 @@ struct boss_kurinnaxx : public BossAI
         if (killer)
         {
             killer->GetMap()->LoadGrid(-9502.80f, 2042.65f); // Ossirian grid
+            killer->GetMap()->LoadGrid(-8538.17f, 1486.09f); // Andorov run path grid
 
             if (Player* player = killer->GetCharmerOrOwnerPlayerOrPlayerItself())
             {
-                player->SummonCreature(NPC_ANDOROV, -8538.177f, 1486.0956f, 32.39054f, 3.7638654f, TEMPSUMMON_CORPSE_DESPAWN, 600000000);
+                Creature* creature = player->SummonCreature(NPC_ANDOROV, -8538.177f, 1486.0956f, 32.39054f, 3.7638654f, TEMPSUMMON_CORPSE_DESPAWN, 600000000);
+                if (creature)
+                {
+                    creature->setActive(true);
+                }
             }
         }
 
@@ -154,7 +161,7 @@ struct boss_kurinnaxx : public BossAI
 private:
     void _phaseNormal()
     {
-        LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Scheduling PHASE_NORMAL.");
+        LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Scheduling PHASE_NORMAL.");
 
         // schedule all abilities
         scheduler.Schedule(8s, 10s, PHASE_NORMAL, [this](TaskContext context)
@@ -190,7 +197,7 @@ private:
 
     void _phaseChase()
     {
-        LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Scheduling PHASE_CHASE.");
+        LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Scheduling PHASE_CHASE.");
 
         // pick a target who is not the current tank (unless only the tank is left)
         if (me->GetThreatMgr().GetThreatListSize() > 1)
@@ -209,10 +216,10 @@ private:
 
         scheduler.CancelAll();
 
-        LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is getting ready to chase {}!", _chaseVictim->GetName());
+        LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is getting ready to chase {}!", _chaseVictim->GetName());
 
         // apply new immunities
-        LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is immune to taunt and stun.");
+        LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is immune to taunt and stun.");
         me->ApplySpellImmune(0, IMMUNITY_STATE, SPELL_AURA_MOD_TAUNT, true);
         me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_ATTACK_ME, true);
         _immuneToStun = true;
@@ -273,7 +280,7 @@ private:
             // go get 'em
             scheduler.Schedule(3s, [this](TaskContext /*context*/)
             {
-                LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is chasing {} for 15 seconds!", _chaseVictim->GetName());
+                LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is chasing {} for 15 seconds!", _chaseVictim->GetName());
                 me->GetThreatMgr().AddThreat(_chaseVictim, 10000000.0f);
                 me->SetControlled(false, UNIT_STATE_ROOT);
                 me->SetSpeed(MOVE_RUN, me->GetCreatureTemplate()->speed_run * 0.8f);
@@ -284,7 +291,7 @@ private:
                 // chase for 15 seconds, then start going back to normal
                 scheduler.Schedule(15s, [this](TaskContext /*context*/)
                 {
-                    LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx returns to PHASE_NORMAL.");
+                    LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx returns to PHASE_NORMAL.");
 
                     // normal speed
                     me->SetSpeed(MOVE_RUN, me->GetCreatureTemplate()->speed_run);
@@ -293,7 +300,7 @@ private:
                     me->SetObjectScale(me->GetCreatureTemplate()->scale);
 
                     // no longer immune to taunt
-                    LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is no longer immune to taunt.");
+                    LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is no longer immune to taunt.");
                     me->ApplySpellImmune(0, IMMUNITY_STATE, SPELL_AURA_MOD_TAUNT, false);
                     me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_ATTACK_ME, false);
 
@@ -308,7 +315,7 @@ private:
                     scheduler.Schedule(20s, [this](TaskContext /*context*/)
                     {
                         sc::Talk(me, "Kurinnaxx's enrage fades.", CHAT_MSG_RAID_BOSS_EMOTE);
-                        LOG_DEBUG("module.Smallcraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is no longer immune to stun.");
+                        LOG_DEBUG("module.SmallCraft", "SmallCraft:boss_kurinnaxx: Kurinnaxx is no longer immune to stun.");
                         _immuneToStun = false;
 
                         // restore normal size
@@ -331,10 +338,6 @@ private:
                 });
             });
         });
-
-
-
-
     }
 
     Unit* _chaseVictim = nullptr;
@@ -406,7 +409,7 @@ public:
 
 void load_sc_boss_kurinnaxx()
 {
-    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/AhnQiraj/Kurinnaxx is enabled.");
+    LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/AhnQiraj/Kurinnaxx is enabled.");
 
     // Kurinnaxx (15348) - Boss
     RegisterCreatureAI(boss_kurinnaxx);
@@ -416,3 +419,4 @@ void load_sc_boss_kurinnaxx()
 
     new sc_boss_kurinnaxx_DatabaseScript();
 }
+} // namespace sc

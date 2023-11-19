@@ -5,6 +5,8 @@
 #include "TaskScheduler.h"
 #include "../../src/server/scripts/EasternKingdoms/ZulGurub/zulgurub.h"
 
+namespace sc
+{
 enum Says
 {
     SAY_AGGRO                      = 0,
@@ -320,10 +322,11 @@ public:
 
 void load_sc_boss_thekal()
 {
-    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/High Priest Thekal is enabled.");
+    LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/Zul'Gurub/High Priest Thekal is enabled.");
 
     // High Priest Thekal (14509) - Tiger Boss
     RegisterCreatureAI(boss_thekal);
 
     new sc_boss_thekal_DatabaseScript();
 }
+} // namespace sc

@@ -11,15 +11,17 @@
 #include "TaskScheduler.h"
 #include "../../src/server/scripts/EasternKingdoms/BlackrockMountain/MoltenCore/molten_core.h"
 
-namespace ac_magmadar
+namespace ac
 {
     #include "../../src/server/scripts/EasternKingdoms/BlackrockMountain/MoltenCore/boss_magmadar.cpp"
 }
 
-class sc_boss_magmadar_GlobalScript : public GlobalScript
+namespace sc
+{
+class boss_magmadar_GlobalScript : public GlobalScript
 {
 public:
-    sc_boss_magmadar_GlobalScript() : GlobalScript("sc_boss_magmadar_GlobalScript") { }
+    boss_magmadar_GlobalScript() : GlobalScript("boss_magmadar_GlobalScript") { }
 
     void OnLoadSpellCustomAttr(SpellInfo* spellInfo) override
     {
@@ -28,7 +30,7 @@ public:
             // Enrage (19451)
             // Reduce duration to 2.5s
             case (19451):
-                LOG_DEBUG("module.Smallcraft", "sc::sc_boss_magmadar_GlobalScript:: Modifying spell {} ({})...", spellInfo->Id, spellInfo->SpellName[0]);
+                LOG_DEBUG("module.SmallCraft", "sc::boss_magmadar_GlobalScript:: Modifying spell {} ({})...", spellInfo->Id, spellInfo->SpellName[0]);
                 spellInfo->DurationEntry = sSpellDurationStore.LookupEntry(66); // 2500ms
                 break;
             default:
@@ -39,7 +41,8 @@ public:
 
 void load_sc_boss_magmadar()
 {
-    LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Molten Core/Magmadar is enabled.");
+    LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/Molten Core/Magmadar is enabled.");
 
-    new sc_boss_magmadar_GlobalScript();
+    new boss_magmadar_GlobalScript();
 }
+} // namespace sc
