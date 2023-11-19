@@ -73,6 +73,7 @@ struct sc_boss_kurinnaxx : public BossAI
         me->ApplySpellImmune(0, IMMUNITY_STATE, SPELL_AURA_MOD_TAUNT, false);
         me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_ATTACK_ME, false);
         me->ApplySpellImmune(0, IMMUNITY_STATE, SPELL_AURA_MOD_STUN, false);
+        me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_AURA_MOD_STUN, false);
         _immuneToStun = false;
     }
 

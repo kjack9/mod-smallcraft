@@ -2,7 +2,6 @@
 #include "Config.h"
 #include "Chat.h"
 #include "DatabaseEnv.h"
-#include "SmartEnum.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
 #include "ScriptMgr.h"
