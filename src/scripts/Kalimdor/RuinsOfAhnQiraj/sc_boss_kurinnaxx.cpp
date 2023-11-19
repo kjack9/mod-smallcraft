@@ -47,9 +47,9 @@ enum Phases
 /**
  * @brief SmallCraft AI for the Kurinnaxx (15348) creature.
  */
-struct sc_boss_kurinnaxx : public BossAI
+struct boss_kurinnaxx : public BossAI
 {
-    sc_boss_kurinnaxx(Creature* creature) : BossAI(creature, DATA_KURINNAXX) {}
+    boss_kurinnaxx(Creature* creature) : BossAI(creature, DATA_KURINNAXX) {}
 
     void InitializeAI() override
     {
@@ -400,7 +400,6 @@ public:
     void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
     {
         // Kurinnaxx (15348) - Boss
-        creatureTemplates[NPC_KURINNAXX]->ScriptID = sObjectMgr->GetScriptId("sc_boss_kurinnaxx");
         creatureTemplates[NPC_KURINNAXX]->MechanicImmuneMask = 617297755; // allow stun
     }
 };
@@ -410,7 +409,7 @@ void load_sc_boss_kurinnaxx()
     LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/AhnQiraj/Kurinnaxx is enabled.");
 
     // Kurinnaxx (15348) - Boss
-    RegisterSmallcraftCreatureAI(sc_boss_kurinnaxx);
+    RegisterCreatureAI(boss_kurinnaxx);
 
     // // Spells
     // RegisterSmallcraftSpellScript(SPELL_PLAYER_HUSTLE, sc_spell_boss_kurinaxx_hustle);

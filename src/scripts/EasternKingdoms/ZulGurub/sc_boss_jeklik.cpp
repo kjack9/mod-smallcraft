@@ -95,9 +95,9 @@ enum BatRiderMode
 /**
  * @brief SmallCraft AI for the High Priestess Jeklik (14517) creature.
  */
-struct sc_boss_jeklik : public BossAI
+struct boss_jeklik : public BossAI
 {
-    sc_boss_jeklik(Creature* creature) : BossAI(creature, DATA_JEKLIK) { }
+    boss_jeklik(Creature* creature) : BossAI(creature, DATA_JEKLIK) { }
 
     void InitializeAI() override
     {
@@ -142,20 +142,20 @@ struct sc_boss_jeklik : public BossAI
         //
         // Phase 1
         //
-        LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik:: PHASE ONE");
+        LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik:: PHASE ONE");
         // Charge
         scheduler.Schedule(10s, 20s, PHASE_ONE, [this](TaskContext context)
         {
             // charge the nearest player that is at least 8 yards away (charge min distance)
             if (Unit* target = SelectTarget(SelectTargetMethod::MinDistance, 0, -8.0f, false, false))
             {
-                LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik::UpdateAI:: Charge successful (target: {})", target->GetName());
+                LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik::UpdateAI:: Charge successful (target: {})", target->GetName());
                 DoCast(target, SPELL_CHARGE);
                 AttackStart(target);
             }
             else
             {
-                LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik::UpdateAI:: Charge failed (no target available)");
+                LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik::UpdateAI:: Charge failed (no target available)");
             }
             context.Repeat(15s, 30s);
         // Pierce Armor
@@ -200,7 +200,7 @@ struct sc_boss_jeklik : public BossAI
         //
         ScheduleHealthCheckEvent(50, [&]
         {
-            LOG_DEBUG("module.Smallcraft.ai", "sc_boss_jeklik:: PHASE TWO");
+            LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik:: PHASE TWO");
             me->RemoveAurasDueToSpell(SPELL_BAT_FORM);
             DoResetThreatList();
 
@@ -238,7 +238,7 @@ struct sc_boss_jeklik : public BossAI
             {
                 if (me->GetThreatMgr().GetThreatListSize())
                 {
-                    LOG_DEBUG("module.Smallcraft.ai", "boss_jeklik:: Spawn Flying Bat");
+                    LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:boss_jeklik:: Spawn Flying Bat");
                     Talk(SAY_CALL_RIDERS);
                     me->SummonCreature(NPC_BATRIDER, SpawnBatRider, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT);
                 }
@@ -268,14 +268,14 @@ struct sc_boss_jeklik : public BossAI
  * @brief SmallCraft AI for the Gurubashi Bat Rider (14750) creature.
  *        The same creature ID is used for both Jeklik and the trash around her.
  */
-struct sc_npc_batrider : public CreatureAI
+struct npc_batrider : public CreatureAI
 {
     BatRiderMode _mode; // the version of this creature (trash or boss)
     TaskScheduler _scheduler;
     Unit* _lastTarget = nullptr;
     Unit* _nextTarget = nullptr;
 
-    sc_npc_batrider(Creature* creature) : CreatureAI(creature) { }
+    npc_batrider(Creature* creature) : CreatureAI(creature) { }
 
     void InitializeAI() override
     {
@@ -291,7 +291,7 @@ struct sc_npc_batrider : public CreatureAI
             me->ToTempSummon()->GetSummoner()->GetEntry() == NPC_PRIESTESS_JEKLIK
         )
         {
-            LOG_DEBUG("module.Smallcraft.ai", "sc_npc_batrider::InitializeAI: BATRIDER_MODE_BOSS");
+            LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider::InitializeAI: BATRIDER_MODE_BOSS");
             _mode = BATRIDER_MODE_BOSS;
 
             // make the bat rider unattackable
@@ -327,7 +327,7 @@ struct sc_npc_batrider : public CreatureAI
 
                 if (_nextTarget)
                 {
-                    LOG_DEBUG("module.Smallcraft.ai", "sc_npc_batrider:: throwing bomb at {}", _nextTarget->GetName());
+                    LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider:: throwing bomb at {}", _nextTarget->GetName());
                     DoCast(_nextTarget, SPELL_BATRIDER_THROW_LIQUID_FIRE);
                     _lastTarget = _nextTarget;                              // save the next target as the last target
                 }
@@ -338,7 +338,7 @@ struct sc_npc_batrider : public CreatureAI
         // otherwise, trash mode
         else
         {
-            LOG_DEBUG("module.Smallcraft.ai", "sc_npc_batrider::InitializeAI: BATRIDER_MODE_TRASH");
+            LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider::InitializeAI: BATRIDER_MODE_TRASH");
             _mode = BATRIDER_MODE_TRASH;
 
             me->SetReactState(REACT_DEFENSIVE);
@@ -412,7 +412,7 @@ struct sc_npc_batrider : public CreatureAI
             // if the creature isn't moving, run the loop
             if (!me->isMoving())
             {
-                LOG_DEBUG("module.Smallcraft.ai", "sc_npc_batrider::UpdateAI: not moving, running loop");
+                LOG_DEBUG("module.Smallcraft.ai", "SmallCraft:npc_batrider::UpdateAI: not moving, running loop");
                 // enable flying
                 me->SetCanFly(true);
                 // send the rider on its loop
@@ -433,33 +433,14 @@ struct sc_npc_batrider : public CreatureAI
     }
 };
 
-class sc_boss_jeklik_DatabaseScript : public DatabaseScript
-{
-public:
-    sc_boss_jeklik_DatabaseScript() : DatabaseScript("sc_boss_jeklik_DatabaseScript") { }
-
-    void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
-    {
-        // Alter the AIs of creatures to use the SmallCraft AI without updating the DB
-        // High Priestess Jeklik (14517)
-        creatureTemplates[14517]->ScriptID = sObjectMgr->GetScriptId("sc_boss_jeklik");
-
-        // Gurubashi Bat Rider (14750)
-        creatureTemplates[14750]->ScriptID = sObjectMgr->GetScriptId("sc_npc_batrider");
-    }
-
-};
-
 void load_sc_boss_jeklik()
 {
     LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/Jeklik is enabled.");
 
     // High Priestess Jeklik (14517)
-    RegisterSmallcraftCreatureAI(sc_boss_jeklik);
+    RegisterCreatureAI(boss_jeklik);
 
     // Gurubashi Bat Rider (14750)
-    RegisterSmallcraftCreatureAI(sc_npc_batrider);
-
-    new sc_boss_jeklik_DatabaseScript();
+    RegisterCreatureAI(npc_batrider);
 }
 

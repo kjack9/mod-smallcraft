@@ -49,9 +49,9 @@ enum Actions
 };
 
 // High-Priest Thekal (14509)
-struct sc_boss_thekal : public BossAI
+struct boss_thekal : public BossAI
 {
-    sc_boss_thekal(Creature* creature) : BossAI(creature, DATA_THEKAL)
+    boss_thekal(Creature* creature) : BossAI(creature, DATA_THEKAL)
     {
         Initialize();
     }
@@ -312,10 +312,6 @@ public:
 
     void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
     {
-        // High Priest Thekal (14509) - Tiger Boss
-        // replace AI
-        creatureTemplates[14509]->ScriptID = sObjectMgr->GetScriptId("sc_boss_thekal");
-
         // Zealot Zath (11348) - Tiger Boss Add
         // make kite-able
         creatureTemplates[11348]->MechanicImmuneMask = 536936977; // can't be CC'd, but can be slowed/distracted/rooted/etc
@@ -327,7 +323,7 @@ void load_sc_boss_thekal()
     LOG_DEBUG("module.Smallcraft", "SmallCraft: Vanilla/Zul'Gurub/High Priest Thekal is enabled.");
 
     // High Priest Thekal (14509) - Tiger Boss
-    RegisterSmallcraftCreatureAI(sc_boss_thekal);
+    RegisterCreatureAI(boss_thekal);
 
     new sc_boss_thekal_DatabaseScript();
 }
