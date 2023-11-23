@@ -16,3 +16,8 @@ This document describes the changes made to Zul'Gurub by SmallCraft.
 
 ### High Priest Thekal (Tiger Boss)
 - Zealot Zath (11348) is now kite-able and vulnerable to many forms of CC. Still cannot be charged, feared, sleeped, polymorphed, sapped, or banished.
+
+### High Priestess Arlokk (Panther Boss)
+- Increased time between panther spawns from 6s to 7s
+- After gouging the main tank, Arlokk will briefly be vulnerable to disorient/distract/root/snare/stun/freeze/daze effects
+- Mark of Arlokk will always be applied to the nearest player who is not the tank
