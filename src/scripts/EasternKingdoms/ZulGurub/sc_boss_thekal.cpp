@@ -307,10 +307,10 @@ struct boss_thekal : public BossAI
         bool _wasDead;
 };
 
-class sc_boss_thekal_DatabaseScript : public DatabaseScript
+class boss_thekal_DatabaseScript : public DatabaseScript
 {
 public:
-    sc_boss_thekal_DatabaseScript() : DatabaseScript("sc_boss_thekal_DatabaseScript") { }
+    boss_thekal_DatabaseScript() : DatabaseScript("boss_thekal_DatabaseScript") { }
 
     void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
     {
@@ -320,13 +320,13 @@ public:
     }
 };
 
-void load_sc_boss_thekal()
+void load_boss_thekal()
 {
     LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/Zul'Gurub/High Priest Thekal is enabled.");
 
     // High Priest Thekal (14509) - Tiger Boss
     RegisterCreatureAI(boss_thekal);
 
-    new sc_boss_thekal_DatabaseScript();
+    new boss_thekal_DatabaseScript();
 }
 } // namespace sc

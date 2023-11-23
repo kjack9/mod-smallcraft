@@ -39,7 +39,7 @@ public:
     }
 };
 
-void load_sc_boss_magmadar()
+void load_boss_magmadar()
 {
     LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/Molten Core/Magmadar is enabled.");
 

@@ -1059,7 +1059,7 @@ std::vector<SmallcraftGroupMemberInfo*> Smallcraft_TempSpells::_getMembersForTem
     }
 }
 
-void load_sc_tempspells()
+void load_tempspells()
 {
     LOG_DEBUG("module.SmallCraft.TempSpells", "SmallCraft: Temp Spells is enabled.");
     new Smallcraft_TempSpells_GroupScript();

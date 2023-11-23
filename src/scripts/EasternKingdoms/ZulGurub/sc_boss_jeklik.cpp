@@ -435,7 +435,7 @@ struct npc_batrider : public CreatureAI
     }
 };
 
-void load_sc_boss_jeklik()
+void load_boss_jeklik()
 {
     LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/Zul'Gurub/Jeklik is enabled.");
 

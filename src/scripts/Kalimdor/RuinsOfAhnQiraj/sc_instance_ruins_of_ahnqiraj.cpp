@@ -337,14 +337,14 @@ public:
 };
 
 // Load function declarations
-void load_sc_boss_kurinnaxx();
+void load_boss_kurinnaxx();
 
-void load_sc_instance_ahnqiraj()
+void load_instance_ahnqiraj()
 {
     LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/AhnQiraj is enabled.");
     new instance_ruins_of_ahnqiraj();
 
     if (sConfigMgr->GetOption<bool>("Smallcraft.RaidChanges.Vanilla.AhnQiraj.Kurinnaxx", true))
-        load_sc_boss_kurinnaxx();
+        load_boss_kurinnaxx();
 }
 } // namespace sc

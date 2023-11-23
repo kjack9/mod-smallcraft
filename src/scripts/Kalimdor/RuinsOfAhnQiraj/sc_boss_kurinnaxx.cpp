@@ -345,60 +345,10 @@ private:
 
 };
 
-// class sc_spell_boss_kurinaxx_hustle : public SpellScriptLoader
-// {
-// public:
-//     sc_spell_boss_kurinaxx_hustle() : SpellScriptLoader("spell_boss_kurinaxx_hustle") { }
-
-//     class sc_spell_boss_kurinaxx_hustle_AuraScript : public AuraScript
-//     {
-//         PrepareAuraScript(sc_spell_boss_kurinaxx_hustle_AuraScript);
-
-//         void HandleEffectApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
-//         {
-//             SetMaxDuration(18000);
-//             SetDuration(18000);
-//         }
-
-//         void Register() override
-//         {
-//             OnEffectApply += AuraEffectApplyFn(sc_spell_boss_kurinaxx_hustle_AuraScript::HandleEffectApply, EFFECT_0, SPELL_AURA_PERIODIC_TRIGGER_SPELL, AURA_EFFECT_HANDLE_REAL);
-//         }
-//     };
-
-//     AuraScript* GetAuraScript() const override
-//     {
-//         return new sc_spell_boss_kurinaxx_hustle_AuraScript();
-//     }
-// };
-
-// struct go_sand_trap : public GameObjectAI
-// {
-//     go_sand_trap(GameObject* go) : GameObjectAI(go) { }
-
-//     void Reset() override
-//     {
-//         _scheduler.Schedule(5s, [this](TaskContext /*context*/)
-//         {
-//             if (InstanceScript* instance = me->GetInstanceScript())
-//                 if (Creature* kurinnaxx = instance->GetCreature(DATA_KURINNAXX))
-//                     me->Use(kurinnaxx);
-//         });
-//     }
-
-//     void UpdateAI(uint32 const diff) override
-//     {
-//         _scheduler.Update(diff);
-//     }
-
-// protected:
-//     TaskScheduler _scheduler;
-// };
-
-class sc_boss_kurinnaxx_DatabaseScript : public DatabaseScript
+class boss_kurinnaxx_DatabaseScript : public DatabaseScript
 {
 public:
-    sc_boss_kurinnaxx_DatabaseScript() : DatabaseScript("sc_boss_kurinnaxx_DatabaseScript") { }
+    boss_kurinnaxx_DatabaseScript() : DatabaseScript("boss_kurinnaxx_DatabaseScript") { }
 
     void OnAfterDatabaseLoadCreatureTemplates(std::vector<CreatureTemplate*> creatureTemplates) override
     {
@@ -407,16 +357,13 @@ public:
     }
 };
 
-void load_sc_boss_kurinnaxx()
+void load_boss_kurinnaxx()
 {
     LOG_DEBUG("module.SmallCraft", "SmallCraft: Vanilla/AhnQiraj/Kurinnaxx is enabled.");
 
     // Kurinnaxx (15348) - Boss
     RegisterCreatureAI(boss_kurinnaxx);
 
-    // // Spells
-    // RegisterSmallcraftSpellScript(SPELL_PLAYER_HUSTLE, sc_spell_boss_kurinaxx_hustle);
-
-    new sc_boss_kurinnaxx_DatabaseScript();
+    new boss_kurinnaxx_DatabaseScript();
 }
 } // namespace sc
