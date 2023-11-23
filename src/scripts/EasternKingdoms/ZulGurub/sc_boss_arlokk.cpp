@@ -188,10 +188,7 @@ struct boss_arlokk : public BossAI
                 case EVENT_GOUGE:
                     DoCastVictim(SPELL_GOUGE, true);
                     _removeImmunities(); // remove immunities for 4 seconds
-                    if (me->GetVictim())
-                    {
-                        sc::Talk(me, "Arlokk is distracted, stop her!", CHAT_MSG_RAID_BOSS_EMOTE, 1000.0f);
-                    }
+                    sc::Talk(me, "Arlokk is distracted, stop her!", CHAT_MSG_RAID_BOSS_EMOTE, 1000.0f);
                     events.ScheduleEvent(EVENT_ADD_IMMUNITIES, 4s);
                     break;
                 case EVENT_ADD_IMMUNITIES:
