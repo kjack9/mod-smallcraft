@@ -186,10 +186,38 @@ struct boss_arlokk : public BossAI
                     events.ScheduleEvent(EVENT_SHADOW_WORD_PAIN, 5s, 7s, 0, PHASE_ONE);
                     break;
                 case EVENT_GOUGE:
-                    DoCastVictim(SPELL_GOUGE, true);
-                    _removeImmunities(); // remove immunities for 4 seconds
-                    sc::Talk(me, "Arlokk is distracted, stop her!", CHAT_MSG_RAID_BOSS_EMOTE, 1000.0f);
-                    events.ScheduleEvent(EVENT_ADD_IMMUNITIES, 4s);
+                    // if the victim is in melee range, gouge them
+                    if (me->GetVictim() && me->GetVictim()->IsWithinMeleeRange(me))
+                    {
+                        LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_arlokk:EVENT_GOUGE: Gouge victim is in melee range");
+                        Unit* gougeTarget = me->GetVictim();
+                        DoCastVictim(SPELL_GOUGE, true);
+
+                        // if gouge landed, become momentarilty vulnerable to some CCs
+                        if (gougeTarget && gougeTarget->HasAura(SPELL_GOUGE))
+                        {
+                            LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_arlokk:EVENT_GOUGE: Gouge landed");
+                            // remove SW:P from the victim to prevent it popping gouge
+                            if (gougeTarget->HasAura(SPELL_SHADOW_WORD_PAIN))
+                            {
+                                gougeTarget->RemoveAura(SPELL_SHADOW_WORD_PAIN);
+                            }
+                            _removeImmunities(); // remove immunities for 4 seconds
+                            sc::Talk(me, "Arlokk is distracted, stop her!", CHAT_MSG_RAID_BOSS_EMOTE, 1000.0f);
+                            events.ScheduleEvent(EVENT_ADD_IMMUNITIES, 4s);
+                        }
+                        // if gouge did NOT land, reschedule gouge for shortly after
+                        else
+                        {
+                            LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_arlokk:EVENT_GOUGE: Gouge did NOT land");
+                            events.ScheduleEvent(EVENT_GOUGE, 5s, 7s, 0, PHASE_ONE);
+                        }
+                    }
+                    else
+                    {
+                        LOG_DEBUG("module.SmallCraft.ai", "SmallCraft:boss_arlokk:EVENT_GOUGE: Gouge victim is not in melee range");
+                        events.ScheduleEvent(EVENT_GOUGE, 1s, 2s, 0, PHASE_ONE);
+                    }
                     break;
                 case EVENT_ADD_IMMUNITIES:
                     _addImmunities();
@@ -383,7 +411,15 @@ struct npc_zulian_prowler : public ScriptedAI
     {
         if (UpdateVictim())
         {
-            DoMeleeAttackIfReady();
+            if (!(me->GetVictim()->HasAura(SPELL_GOUGE)))
+            {
+                DoMeleeAttackIfReady();
+            }
+            else
+            {
+                me->AttackStop();
+                me->GetThreatMgr().ModifyThreatByPercent(me->GetVictim(), -100.0f);
+            }
             return;
         }
 
