@@ -9,6 +9,7 @@ namespace sc
 void load_boss_jeklik();
 void load_boss_thekal();
 void load_boss_arlokk();
+void load_boss_mandokir();
 
 void load_instance_zulgurub()
 {
@@ -20,5 +21,7 @@ void load_instance_zulgurub()
         load_boss_thekal();
     if (sConfigMgr->GetOption<bool>("Smallcraft.RaidChanges.Vanilla.ZulGurub.Arlokk", true))
         load_boss_arlokk();
+    if (sConfigMgr->GetOption<bool>("Smallcraft.RaidChanges.Vanilla.ZulGurub.Mandokir", true))
+        load_boss_mandokir();
 }
 } // namespace sc
